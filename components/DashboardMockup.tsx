@@ -1,4 +1,4 @@
-// Maquette animée du tableau de bord FleetAxis — pur CSS, SSR-safe.
+// Maquette animée du tableau de bord Fleet Live — pur CSS, SSR-safe.
 
 const vehicles = [
   { name: 'Toyota Hilux', plate: 'DK-4521-A', statusKey: 'active' as const },
@@ -16,13 +16,13 @@ const STATUS_DOT = {
 
 export default function DashboardMockup() {
   return (
-    <div className="fx-dm" role="img" aria-label="Aperçu du tableau de bord FleetAxis">
+    <div className="fx-dm" role="img" aria-label="Aperçu du tableau de bord Fleet Live">
       {/* Barre chrome macOS */}
       <div className="fx-dm-chrome">
         <div className="fx-dm-chrome-dots">
           <span /><span /><span />
         </div>
-        <span className="fx-dm-chrome-title">FleetAxis · Tableau de bord</span>
+        <span className="fx-dm-chrome-title">Fleet Live · Tableau de bord</span>
         <span className="fx-dm-chrome-badge">● Live</span>
       </div>
 

@@ -14,7 +14,7 @@ export default function ContactSection({ t }: { t: Translation }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `FleetAxis — Demande de démonstration (${form.org || form.firstName || 'Organisation'})`
+    const subject = `Fleet Live — Demande de démonstration (${form.org || form.firstName || 'Organisation'})`
     const body = [
       `${c.firstName}: ${form.firstName}`,
       `${c.email}: ${form.email}`,

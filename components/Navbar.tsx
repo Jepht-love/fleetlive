@@ -19,9 +19,9 @@ export default function Navbar({
   return (
     <nav className="fx-nav">
       <div className="fx-container fx-nav-inner">
-        <a href="#top" className="fx-logo" aria-label="FleetAxis">
+        <a href="#top" className="fx-logo" aria-label="Fleet Live">
           <LogoMark />
-          <span className="fx-logo-text">FleetAxis</span>
+          <span className="fx-logo-text">Fleet Live</span>
         </a>
 
         <div className="fx-nav-links">

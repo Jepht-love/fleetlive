@@ -12,17 +12,17 @@ import ComplianceSection from '@/components/ComplianceSection'
 import ContactSection from '@/components/ContactSection'
 import Footer from '@/components/Footer'
 
-export default function FleetAxisPage() {
+export default function Fleet LivePage() {
   const [lang, setLang] = useState<Lang>('fr')
 
   useEffect(() => {
-    const stored = localStorage.getItem('fleetaxis_lang')
+    const stored = localStorage.getItem('fleetlive_lang')
     if (stored === 'fr' || stored === 'en') setLang(stored)
   }, [])
 
   const handleLang = (l: Lang) => {
     setLang(l)
-    localStorage.setItem('fleetaxis_lang', l)
+    localStorage.setItem('fleetlive_lang', l)
   }
 
   const t = getTranslation(lang)

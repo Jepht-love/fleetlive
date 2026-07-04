@@ -105,10 +105,10 @@ export const translations = {
     },
 
     footer: {
-      brand: 'FleetAxis',
+      brand: 'Fleet Live',
       mail: 'projobs01@gmail.com',
       links: ['Mentions légales', 'Politique de confidentialité', 'CGU'],
-      legal: '© 2026 FleetAxis',
+      legal: '© 2026 Fleet Live',
     },
   },
 
@@ -216,10 +216,10 @@ export const translations = {
     },
 
     footer: {
-      brand: 'FleetAxis',
+      brand: 'Fleet Live',
       mail: 'projobs01@gmail.com',
       links: ['Legal notice', 'Privacy policy', 'Terms of use'],
-      legal: '© 2026 FleetAxis',
+      legal: '© 2026 Fleet Live',
     },
   },
 } as const

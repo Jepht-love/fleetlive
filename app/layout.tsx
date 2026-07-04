@@ -7,14 +7,14 @@ const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variabl
 const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'FleetAxis — Logiciel de gestion de flotte',
+  title: 'Fleet Live — Logiciel de gestion de flotte',
   description:
-    'FleetAxis — logiciel de gestion de flotte de véhicules : suivi des déplacements, états des lieux numérisés, alertes, rapports. Fleet management software for rental agencies, corporate fleets and transport operators.',
-  applicationName: 'FleetAxis',
-  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'FleetAxis' },
+    'Fleet Live — logiciel de gestion de flotte de véhicules : suivi des déplacements, états des lieux numérisés, alertes, rapports. Fleet management software for rental agencies, corporate fleets and transport operators.',
+  applicationName: 'Fleet Live',
+  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'Fleet Live' },
   other: {
-    'apple-mobile-web-app-title': 'FleetAxis',
-    'application-name': 'FleetAxis',
+    'apple-mobile-web-app-title': 'Fleet Live',
+    'application-name': 'Fleet Live',
   },
 }
 
