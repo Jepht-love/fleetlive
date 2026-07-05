@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import {
   Clock,
@@ -11,23 +12,37 @@ import {
   EyeOff,
   Car,
   Camera,
-  Cpu,
   FileText,
   Database,
-  ArrowRight,
   ArrowDown,
   Check,
 } from 'lucide-react'
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { getContent, type Lang } from '@/lib/content'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger)
+gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin)
 
 const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
-const STEP_ICONS = [Car, Camera, Cpu, FileText, Database]
+// Ordre des nœuds du diagramme orbital : Véhicule (haut-g), Photos (bas-g),
+// Rapport (haut-d), CRM (bas-d). Le cœur central = l'inspection IA.
+const NODE_ICONS = [Car, Camera, FileText, Database]
+// Connecteurs bézier (viewBox 1000×720, cœur au centre 500,360) : sortie
+// horizontale du cœur puis arrivée verticale au nœud, à la manière du schéma Ravin.
+const ORBIT_PATHS = [
+  'M415 345 C305 345 215 257 215 150', // Véhicule — entrée
+  'M415 375 C305 375 215 463 215 570', // Photos — entrée
+  'M585 345 C695 345 785 257 785 150', // Rapport — sortie
+  'M585 375 C695 375 785 463 785 570', // CRM — sortie
+]
+const ORBIT_POS = [
+  { left: '21.5%', top: '20.8%', side: 'left' as const },
+  { left: '21.5%', top: '79.2%', side: 'left' as const },
+  { left: '78.5%', top: '20.8%', side: 'right' as const },
+  { left: '78.5%', top: '79.2%', side: 'right' as const },
+]
 
 export default function FleetLivePage() {
   const [lang, setLang] = useState<Lang>('fr')
@@ -79,11 +94,68 @@ export default function FleetLivePage() {
 
         reveal('.fl-grid-2 .fl-card', '.fl-grid-2')
         reveal('.fl-phones .fl-phone-item', '.fl-phones')
-        reveal('.fl-flow .fl-step', '.fl-flow')
         reveal('.fl-roi-metric', '.fl-roi-metrics')
         reveal('.fl-audience-grid .fl-role', '.fl-audience-grid')
         reveal('.fl-phases .fl-phase', '.fl-phases')
         reveal('.fl-pricing', '.fl-pricing')
+
+        // Diagramme orbital « Comment ça fonctionne » — cœur IA + connecteurs
+        // Tracé progressif des courbes au scroll
+        gsap.utils.toArray<SVGPathElement>('.fl-orbit-line').forEach((path, i) => {
+          const len = path.getTotalLength()
+          gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
+          gsap.to(path, {
+            strokeDashoffset: 0,
+            duration: 1.2,
+            ease: 'power2.inOut',
+            delay: i * 0.12,
+            scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
+          })
+        })
+        // Révélation du cœur et des nœuds
+        gsap.from('.fl-orbit-core', {
+          scale: 0.8,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
+        })
+        gsap.from('.fl-orbit-node', {
+          y: 18,
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          stagger: 0.12,
+          delay: 0.35,
+          scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
+        })
+        // Pulsations de données : entrées (0,1) vers le cœur, sorties (2,3) vers les nœuds
+        gsap.utils.toArray<SVGCircleElement>('.fl-orbit-pulse').forEach((dot, i) => {
+          const inbound = i < 2
+          gsap.fromTo(
+            dot,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 0.25,
+              repeat: -1,
+              repeatDelay: 1.85,
+              yoyo: true,
+              delay: 0.6 + i * 0.5,
+            },
+          )
+          gsap.to(dot, {
+            duration: 2.1,
+            repeat: -1,
+            ease: 'power1.inOut',
+            delay: 0.6 + i * 0.5,
+            motionPath: {
+              path: `#fl-orbit-path-${i}`,
+              start: inbound ? 1 : 0,
+              end: inbound ? 0 : 1,
+            },
+          })
+        })
 
         // Frame logiciel — entrée + balayage « scan » (signature vision artificielle)
         gsap.from('.fl-browser', {
@@ -275,30 +347,119 @@ export default function FleetLivePage() {
         </div>
       </section>
 
-      {/* ---------- COMMENT ÇA FONCTIONNE ---------- */}
+      {/* ---------- COMMENT ÇA FONCTIONNE — diagramme orbital ---------- */}
       <section className="fl-section">
         <div className="fl-container">
           <div className="fl-section-head">
             <span className="fl-eyebrow">03</span>
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.how.title}</h2>
           </div>
-          <div className="fl-flow">
-            {c.how.steps.map((step, i) => {
-              const Icon = STEP_ICONS[i]
+
+          {/* Composition orbitale (desktop / tablette large) */}
+          <div className="fl-orbit">
+            <svg
+              className="fl-orbit-svg"
+              viewBox="0 0 1000 720"
+              preserveAspectRatio="xMidYMid meet"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="fl-orbit-grad-l" x1="1" y1="0" x2="0" y2="0">
+                  <stop offset="0" stopColor="#1455fe" />
+                  <stop offset="1" stopColor="#7c5cff" />
+                </linearGradient>
+                <linearGradient id="fl-orbit-grad-r" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#1455fe" />
+                  <stop offset="1" stopColor="#7c5cff" />
+                </linearGradient>
+                <radialGradient id="fl-orbit-glow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0" stopColor="rgba(20,85,254,0.30)" />
+                  <stop offset="0.7" stopColor="rgba(124,92,255,0.08)" />
+                  <stop offset="1" stopColor="rgba(20,85,254,0)" />
+                </radialGradient>
+              </defs>
+              <circle cx="500" cy="360" r="250" fill="url(#fl-orbit-glow)" />
+              {ORBIT_PATHS.map((d, i) => (
+                <path
+                  key={d}
+                  id={`fl-orbit-path-${i}`}
+                  className="fl-orbit-line"
+                  d={d}
+                  stroke={i < 2 ? 'url(#fl-orbit-grad-l)' : 'url(#fl-orbit-grad-r)'}
+                />
+              ))}
+              {ORBIT_PATHS.map((d, i) => (
+                <circle key={`p-${d}`} className="fl-orbit-pulse" r="5" />
+              ))}
+            </svg>
+
+            {/* Cœur IA — élément signature */}
+            <div className="fl-orbit-core">
+              <span className="fl-orbit-core-orb" aria-hidden="true" />
+              <svg className="fl-orbit-ring" viewBox="0 0 200 200" aria-hidden="true">
+                <defs>
+                  <path
+                    id="fl-orbit-ring-path"
+                    d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"
+                  />
+                </defs>
+                <text>
+                  <textPath href="#fl-orbit-ring-path" startOffset="0">
+                    {c.how.core.ring.repeat(2)}
+                  </textPath>
+                </text>
+              </svg>
+              <span className="fl-orbit-core-name">{c.how.core.name}</span>
+            </div>
+
+            {/* Labels d'axe */}
+            <span className="fl-orbit-axis fl-orbit-axis--left">{c.how.captureLabel}</span>
+            <span className="fl-orbit-axis fl-orbit-axis--right">{c.how.outputLabel}</span>
+
+            {/* Nœuds */}
+            {c.how.nodes.map((n, i) => {
+              const Icon = NODE_ICONS[i]
+              const pos = ORBIT_POS[i]
               return (
-                <div key={step.label} style={{ display: 'contents' }}>
-                  <div className="fl-step">
-                    <div className="fl-step-icon"><Icon size={24} /></div>
-                    <div>
-                      <h4>{step.label}</h4>
-                      <p>{step.desc}</p>
-                    </div>
+                <div
+                  key={n.label}
+                  className={`fl-orbit-node fl-orbit-node--${pos.side}`}
+                  style={{ left: pos.left, top: pos.top }}
+                >
+                  <span className="fl-orbit-node-icon"><Icon size={22} /></span>
+                  <div className="fl-orbit-node-text">
+                    <h4>{n.label}</h4>
+                    <p>{n.desc}</p>
                   </div>
-                  {i < c.how.steps.length - 1 && <ArrowRight className="fl-arrow" size={22} />}
                 </div>
               )
             })}
           </div>
+
+          <p className="fl-orbit-caption">{c.how.core.caption}</p>
+
+          {/* Repli vertical (mobile) */}
+          <ol className="fl-orbit-mobile">
+            <li className="fl-orbit-mstep fl-orbit-mstep--core">
+              <span className="fl-orbit-micon fl-orbit-micon--core" aria-hidden="true" />
+              <div>
+                <h4>{c.how.core.name}</h4>
+                <p>{c.how.core.caption}</p>
+              </div>
+            </li>
+            {c.how.nodes.map((n, i) => {
+              const Icon = NODE_ICONS[i]
+              return (
+                <li key={n.label} className="fl-orbit-mstep">
+                  <span className="fl-orbit-micon"><Icon size={20} /></span>
+                  <div>
+                    <h4>{n.label}</h4>
+                    <p>{n.desc}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ol>
         </div>
       </section>
 

@@ -44,7 +44,10 @@ export interface Content {
   }
   how: {
     title: string
-    steps: { label: string; desc: string }[]
+    captureLabel: string
+    outputLabel: string
+    core: { ring: string; name: string; caption: string }
+    nodes: { label: string; desc: string }[]
   }
   roi: {
     title: string
@@ -138,12 +141,18 @@ const fr: Content = {
   },
   how: {
     title: 'Comment ça fonctionne.',
-    steps: [
+    captureLabel: 'Capture',
+    outputLabel: 'Restitution',
+    core: {
+      ring: 'INSPECTION IA · DÉPART · RETOUR · ',
+      name: 'Inspection IA',
+      caption: 'Comparaison automatique départ / retour — chaque dommage est détecté, localisé et suivi.',
+    },
+    nodes: [
       { label: 'Véhicule', desc: 'Retour au parc' },
-      { label: 'Photos', desc: 'Photos prises via le logiciel au retour du véhicule' },
-      { label: 'IA', desc: 'Comparaison automatique départ / retour — dommages détectés' },
-      { label: 'Rapport', desc: 'Rapport instantané des écarts constatés, export PDF' },
-      { label: 'CRM', desc: 'Mise à jour automatique de la fiche véhicule — facturation, litiges, maintenance' },
+      { label: 'Photos', desc: 'Prises via le logiciel au retour du véhicule' },
+      { label: 'Rapport', desc: 'Écarts constatés, export PDF instantané' },
+      { label: 'CRM', desc: 'Fiche véhicule mise à jour — facturation, litiges, maintenance' },
     ],
   },
   roi: {
@@ -257,12 +266,18 @@ const en: Content = {
   },
   how: {
     title: 'How it works.',
-    steps: [
+    captureLabel: 'Capture',
+    outputLabel: 'Output',
+    core: {
+      ring: 'AI INSPECTION · DEPARTURE · RETURN · ',
+      name: 'AI inspection',
+      caption: 'Automatic departure/return comparison — every damage is detected, located and tracked.',
+    },
+    nodes: [
       { label: 'Vehicle', desc: 'Returns to the depot' },
-      { label: 'Photos', desc: 'Photos taken via the software upon vehicle return' },
-      { label: 'AI', desc: 'Automatic departure/return comparison — damage detected' },
-      { label: 'Report', desc: 'Instant discrepancy report, PDF export' },
-      { label: 'CRM', desc: 'Automatic vehicle record update — billing, disputes, maintenance' },
+      { label: 'Photos', desc: 'Taken via the software upon vehicle return' },
+      { label: 'Report', desc: 'Discrepancies flagged, instant PDF export' },
+      { label: 'CRM', desc: 'Vehicle record updated — billing, disputes, maintenance' },
     ],
   },
   roi: {
