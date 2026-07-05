@@ -130,7 +130,7 @@ const fr: Content = {
       submit: 'Demander une démonstration',
     },
   },
-  footer: '© 2026 FleetLive — by SAS Financial Services',
+  footer: '© 2026 FleetLive',
 }
 
 const en: Content = {
@@ -206,7 +206,7 @@ const en: Content = {
       submit: 'Request a demonstration',
     },
   },
-  footer: '© 2026 FleetLive — by SAS Financial Services',
+  footer: '© 2026 FleetLive',
 }
 
 export const content: Record<Lang, Content> = { fr, en }
