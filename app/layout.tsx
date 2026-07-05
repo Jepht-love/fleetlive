@@ -1,25 +1,23 @@
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans, Inter, IBM_Plex_Mono } from 'next/font/google'
-import '@/styles/fleetaxis.css'
+import { Inter } from 'next/font/google'
+import '@/styles/fleetlive.css'
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-jakarta', display: 'swap' })
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter', display: 'swap' })
-const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-plex-mono', display: 'swap' })
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'Fleet Live — Logiciel de gestion de flotte',
+  title: 'FleetLive — Gestion de flotte & inspection automatisée',
   description:
-    'Fleet Live — logiciel de gestion de flotte de véhicules : suivi des déplacements, états des lieux numérisés, alertes, rapports. Fleet management software for rental agencies, corporate fleets and transport operators.',
-  applicationName: 'Fleet Live',
-  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'Fleet Live' },
-  other: {
-    'apple-mobile-web-app-title': 'Fleet Live',
-    'application-name': 'Fleet Live',
-  },
+    'FleetLive — logiciel de gestion de flotte et d’inspection automatisée. Réduction des coûts opérationnels et des litiges via vision artificielle.',
+  applicationName: 'FleetLive',
 }
 
 export const viewport: Viewport = {
-  themeColor: '#060C18',
+  themeColor: '#050A14',
   width: 'device-width',
   initialScale: 1,
 }
@@ -27,11 +25,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body>
-        <div className={`${jakarta.variable} ${inter.variable} ${plexMono.variable} fx-root`}>
-          {children}
-        </div>
-      </body>
+      <body className={`${inter.variable} fl-root`}>{children}</body>
     </html>
   )
 }

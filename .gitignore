@@ -4,3 +4,6 @@
 .DS_Store
 .env*.local
 .vercel
+
+# Next.js
+/next-env.d.ts
