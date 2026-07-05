@@ -118,7 +118,7 @@ const fr: Content = {
         { img: '/inspection-avant-arriere.png', label: 'Avant & arrière' },
         { img: '/inspection-cotes.png', label: 'Côté gauche & droit' },
       ],
-      zonesLabel: 'Zones inspectées',
+      zonesLabel: 'Faces inspectées',
       groups: [
         { zone: 'Avant', parts: ['Lunette avant', 'Capot', 'Rétroviseur gauche', 'Rétroviseur droit', 'Phare gauche', 'Phare droit', 'Pare-choc avant central', 'Pare-choc avant gauche', 'Pare-choc avant droit'] },
         { zone: 'Arrière', parts: ['Lunette arrière', 'Coffre extérieur', 'Phare arrière gauche', 'Phare arrière droit', 'Pare-choc central arrière', 'Pare-choc arrière gauche', 'Pare-choc arrière droit'] },
@@ -237,7 +237,7 @@ const en: Content = {
         { img: '/inspection-avant-arriere.png', label: 'Front & rear' },
         { img: '/inspection-cotes.png', label: 'Left & right side' },
       ],
-      zonesLabel: 'Inspected areas',
+      zonesLabel: 'Inspected faces',
       groups: [
         { zone: 'Front', parts: ['Windshield', 'Hood', 'Left mirror', 'Right mirror', 'Left headlight', 'Right headlight', 'Front center bumper', 'Front left bumper', 'Front right bumper'] },
         { zone: 'Rear', parts: ['Rear window', 'Trunk lid', 'Left tail light', 'Right tail light', 'Rear center bumper', 'Rear left bumper', 'Rear right bumper'] },

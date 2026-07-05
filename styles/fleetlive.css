@@ -397,16 +397,31 @@ a {
 }
 .fl-inspect-view {
   margin: 0;
-  background: #f4f6fa;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  padding: 14px;
 }
-.fl-inspect-view img {
+/* Frame de taille identique pour les deux planches (aspect ratios différents) :
+   object-fit contain centre le schéma, filtre bleu identique aux autres captures. */
+.fl-inspect-frame {
+  position: relative;
+  height: 560px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: #f4f6fa;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+}
+.fl-inspect-frame img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
   display: block;
-  /* planches sur fond clair : pas de filtre bleu ici pour garder le tracé rouge lisible */
+}
+.fl-inspect-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 85, 254, 0.07), rgba(20, 85, 254, 0.2));
 }
 .fl-inspect-view figcaption {
   margin-top: 10px;
@@ -436,30 +451,20 @@ a {
   letter-spacing: 0.09em;
   color: var(--muted);
 }
-.fl-zone-group {
-  display: grid;
-  grid-template-columns: 116px minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-}
-.fl-zone-group h5 {
-  margin: 4px 0 0;
-  font-size: 14px;
-  font-weight: 650;
-  color: var(--text);
-}
-.fl-zone-chips {
+/* Les 5 faces inspectées — vue d'ensemble, sans détailler la nomenclature. */
+.fl-faces {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
+  gap: 10px;
 }
-.fl-zone-chip {
-  font-size: 12.5px;
-  color: var(--muted);
+.fl-face {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
   background: var(--bg-elevated);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  padding: 5px 11px;
+  padding: 9px 18px;
   line-height: 1;
   white-space: nowrap;
 }
@@ -474,14 +479,16 @@ a {
   .fl-inspect-view {
     flex: 1;
   }
-  .fl-zone-group {
-    grid-template-columns: 1fr;
-    gap: 8px;
+  .fl-inspect-frame {
+    height: 320px;
   }
 }
 @media (max-width: 560px) {
   .fl-inspect-views {
     flex-direction: column;
+  }
+  .fl-inspect-frame {
+    height: 420px;
   }
 }
 

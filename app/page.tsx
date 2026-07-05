@@ -206,7 +206,9 @@ export default function FleetLivePage() {
               <div className="fl-inspect-views">
                 {c.software.inspection.views.map((v) => (
                   <figure key={v.img} className="fl-inspect-view">
-                    <img src={v.img} alt={v.label} onLoad={() => ScrollTrigger.refresh()} />
+                    <div className="fl-inspect-frame">
+                      <img src={v.img} alt={v.label} onLoad={() => ScrollTrigger.refresh()} />
+                    </div>
                     <figcaption>{v.label}</figcaption>
                   </figure>
                 ))}
@@ -214,16 +216,11 @@ export default function FleetLivePage() {
               <div className="fl-inspect-zones">
                 <p className="fl-inspect-intro">{c.software.inspection.intro}</p>
                 <h4 className="fl-inspect-zones-title">{c.software.inspection.zonesLabel}</h4>
-                {c.software.inspection.groups.map((g) => (
-                  <div key={g.zone} className="fl-zone-group">
-                    <h5>{g.zone}</h5>
-                    <div className="fl-zone-chips">
-                      {g.parts.map((p) => (
-                        <span key={p} className="fl-zone-chip">{p}</span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                <div className="fl-faces">
+                  {c.software.inspection.groups.map((g) => (
+                    <span key={g.zone} className="fl-face">{g.zone}</span>
+                  ))}
+                </div>
               </div>
             </div>
           ) : (
