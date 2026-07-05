@@ -81,9 +81,9 @@ export default function FleetLivePage() {
         reveal('.fl-phones .fl-phone-item', '.fl-phones')
         reveal('.fl-flow .fl-step', '.fl-flow')
         reveal('.fl-roi-metric', '.fl-roi-metrics')
-        reveal('.fl-grid-3 .fl-tier', '.fl-grid-3')
         reveal('.fl-audience-grid .fl-role', '.fl-audience-grid')
         reveal('.fl-phases .fl-phase', '.fl-phases')
+        reveal('.fl-pricing', '.fl-pricing')
 
         // Frame logiciel — entrée + balayage « scan » (signature vision artificielle)
         gsap.from('.fl-browser', {
@@ -319,15 +319,6 @@ export default function FleetLivePage() {
               </div>
             ))}
           </div>
-
-          <div className="fl-grid-3">
-            {c.roi.tiers.map((tier) => (
-              <div key={tier.label} className="fl-tier">
-                <div className="fl-tier-label">{tier.label}</div>
-                <div className="fl-tier-amount">{tier.amount}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -367,6 +358,12 @@ export default function FleetLivePage() {
                 <p>{p.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="fl-pricing">
+            <span className="fl-pricing-label">{c.deploy.pricing.label}</span>
+            <p className="fl-pricing-text">{c.deploy.pricing.text}</p>
+            <p className="fl-pricing-contact">{c.deploy.pricing.contact}</p>
           </div>
 
           <div className="fl-cta">

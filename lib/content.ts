@@ -50,7 +50,6 @@ export interface Content {
     title: string
     sub: string
     metrics: string[]
-    tiers: { label: string; amount: string }[]
   }
   audience: {
     title: string
@@ -61,6 +60,7 @@ export interface Content {
   deploy: {
     title: string
     phases: { phase: string; desc: string }[]
+    pricing: { label: string; text: string; contact: string }
     ctaTitle: string
     ctaButton: string
     bookingFallback: string
@@ -139,25 +139,20 @@ const fr: Content = {
   how: {
     title: 'Comment ça fonctionne.',
     steps: [
-      { label: 'Véhicule', desc: 'Arrive en zone dédiée' },
-      { label: 'Capture', desc: 'Multi-angles, horodatée, géolocalisée' },
-      { label: 'IA', desc: 'Détecte et compare les dommages avec l’historique' },
-      { label: 'Rapport', desc: 'Anomalies, comparatif, export PDF' },
-      { label: 'CRM', desc: 'Facturation, litiges, maintenance' },
+      { label: 'Véhicule', desc: 'Retour au parc' },
+      { label: 'Photos', desc: 'Photos prises via le logiciel au retour du véhicule' },
+      { label: 'IA', desc: 'Comparaison automatique départ / retour — dommages détectés' },
+      { label: 'Rapport', desc: 'Rapport instantané des écarts constatés, export PDF' },
+      { label: 'CRM', desc: 'Mise à jour automatique de la fiche véhicule — facturation, litiges, maintenance' },
     ],
   },
   roi: {
     title: 'Retour sur investissement.',
-    sub: '200 000 € à 1 000 000 € d’économies par flotte et par an.',
+    sub: 'Pour une flotte de 50 à 100 véhicules, les gains sont immédiats.',
     metrics: [
-      '1 000 véhicules = 233h d’inspection/mois supprimées, soit 1,5 ETP économisé',
-      'Preuve visuelle = 50 000 € à 500 000 € de pertes évitées (litiges)',
-      'Détection précoce = -10% à -25% sur les réparations',
-    ],
-    tiers: [
-      { label: 'Petite flotte (200 véh.)', amount: '80K€ – 200K€/an' },
-      { label: 'Flotte moyenne (1 000 véh.)', amount: '200K€ – 600K€/an' },
-      { label: 'Grande flotte (5 000+ véh.)', amount: '500K€ – 1M€+/an' },
+      '~14 minutes d’inspection économisées par véhicule et par passage',
+      'Preuve visuelle = litiges réduits significativement, coûts de dommages documentés et récupérables',
+      'Détection précoce des dommages = -10% à -25% sur les coûts de réparation',
     ],
   },
   audience: {
@@ -180,14 +175,19 @@ const fr: Content = {
       { phase: 'Validation KPIs', desc: 'Temps d’inspection · Taux d’erreur détecté · Litiges évités · Satisfaction opérationnelle' },
       { phase: 'Scale multi-sites', desc: 'Déploiement sur plusieurs dépôts · Intégration CRM globale · Centralisation des données flotte' },
     ],
-    ctaTitle: 'Prêt à automatiser votre inspection ?',
+    pricing: {
+      label: 'Tarification',
+      text: 'Tarification sur mesure selon la taille de la flotte et le périmètre de déploiement.',
+      contact: 'Contactez-nous pour une proposition adaptée.',
+    },
+    ctaTitle: 'Prêt à dématérialiser la gestion de votre flotte ?',
     ctaButton: 'Demander une démonstration',
     bookingFallback: 'Aucun créneau ne convient ? Écrivez-nous à',
     form: {
       firstName: 'Prénom',
       email: 'Email professionnel',
       fleetSize: 'Taille de flotte',
-      fleetOptions: ['< 50', '50–200', '200–1000', '1000+'],
+      fleetOptions: ['10–20', '20–50', '50–100', '100–300', '300+'],
       message: 'Message',
       submit: 'Demander une démonstration',
       sending: 'Envoi en cours…',
@@ -258,25 +258,20 @@ const en: Content = {
   how: {
     title: 'How it works.',
     steps: [
-      { label: 'Vehicle', desc: 'Arrives at the designated zone' },
-      { label: 'Capture', desc: 'Multi-angle, timestamped, geolocated' },
-      { label: 'AI', desc: 'Detects and compares damage against history' },
-      { label: 'Report', desc: 'Anomalies, comparison, PDF export' },
-      { label: 'CRM', desc: 'Billing, disputes, maintenance' },
+      { label: 'Vehicle', desc: 'Returns to the depot' },
+      { label: 'Photos', desc: 'Photos taken via the software upon vehicle return' },
+      { label: 'AI', desc: 'Automatic departure/return comparison — damage detected' },
+      { label: 'Report', desc: 'Instant discrepancy report, PDF export' },
+      { label: 'CRM', desc: 'Automatic vehicle record update — billing, disputes, maintenance' },
     ],
   },
   roi: {
     title: 'Return on investment.',
-    sub: '€200K to €1M in savings per fleet per year.',
+    sub: 'For a fleet of 50 to 100 vehicles, gains are immediate.',
     metrics: [
-      '1,000 vehicles = 233 inspection hours/month eliminated, i.e. 1.5 FTE saved',
-      'Visual proof = €50K to €500K in avoided losses (disputes)',
-      'Early detection = -10% to -25% on repairs',
-    ],
-    tiers: [
-      { label: 'Small fleet (200 veh.)', amount: '€80K – €200K/yr' },
-      { label: 'Mid fleet (1,000 veh.)', amount: '€200K – €600K/yr' },
-      { label: 'Large fleet (5,000+ veh.)', amount: '€500K – €1M+/yr' },
+      '~14 minutes of inspection time saved per vehicle per pass',
+      'Visual proof = significantly reduced disputes, damage costs documented and recoverable',
+      'Early damage detection = -10% to -25% on repair costs',
     ],
   },
   audience: {
@@ -299,14 +294,19 @@ const en: Content = {
       { phase: 'KPI validation', desc: 'Inspection time · Error rate detected · Disputes avoided · Operational satisfaction' },
       { phase: 'Multi-site scale', desc: 'Multi-depot deployment · Global CRM integration · Centralized fleet data' },
     ],
-    ctaTitle: 'Ready to automate your inspections?',
+    pricing: {
+      label: 'Pricing',
+      text: 'Custom pricing based on fleet size and deployment scope.',
+      contact: 'Contact us for a tailored proposal.',
+    },
+    ctaTitle: 'Ready to digitize your fleet management?',
     ctaButton: 'Request a demonstration',
     bookingFallback: 'No slot works for you? Email us at',
     form: {
       firstName: 'First name',
       email: 'Professional email',
       fleetSize: 'Fleet size',
-      fleetOptions: ['< 50', '50–200', '200–1000', '1000+'],
+      fleetOptions: ['10–20', '20–50', '50–100', '100–300', '300+'],
       message: 'Message',
       submit: 'Request a demonstration',
       sending: 'Sending…',
