@@ -99,7 +99,7 @@ const fr: Content = {
       { id: 'reservations', label: 'Réservations', img: '/reservations.png', desc: 'Liste des réservations avec statuts en temps réel — en cours, en retard, terminée.' },
       { id: 'fleet', label: 'Flotte', img: '/flotte.png', desc: 'Parc en temps réel : disponibilité, tarif jour, caution, kilométrage et état (dégradé) de chaque véhicule.' },
       { id: 'vehicle', label: 'Suivi & entretien', img: '/suivi-entretien.png', desc: 'Fiche véhicule complète : état mécanique et dégradations localisées, kilométrage depuis entretien, immobilisations et statut du véhicule.' },
-      { id: 'inspection', label: 'État des lieux', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
+      { id: 'inspection', label: 'Inspection', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
       { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Prévisionnel de trésorerie : échéances non réglées par mois, loyers véhicules et factures à régler.' },
       { id: 'profitability', label: 'Rentabilité', img: '/rentabilite.png', desc: 'Analyse de rentabilité : dépenses par catégorie et par véhicule, recettes comparées aux dépenses.' },
     ],
