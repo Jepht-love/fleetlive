@@ -29,6 +29,13 @@ export interface Content {
     title: string
     sub: string
     tabs: TabItem[]
+    inspection: {
+      intro: string
+      viewsLabel: string
+      views: { img: string; label: string }[]
+      zonesLabel: string
+      groups: { zone: string; parts: string[] }[]
+    }
   }
   mobile: {
     title: string
@@ -104,6 +111,22 @@ const fr: Content = {
       { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Prévisionnel de trésorerie : échéances non réglées par mois, loyers véhicules et factures à régler.' },
       { id: 'profitability', label: 'Rentabilité', img: '/rentabilite.png', desc: 'Analyse de rentabilité : dépenses par catégorie et par véhicule, recettes comparées aux dépenses.' },
     ],
+    inspection: {
+      intro: 'Chaque zone du véhicule est un point de contrôle. L’inspection couvre l’avant, l’arrière, les deux côtés et le toit — chaque élément peut recevoir un dommage localisé, catégorisé et suivi jusqu’à résolution.',
+      viewsLabel: 'Vues d’inspection',
+      views: [
+        { img: '/inspection-avant-arriere.png', label: 'Avant & arrière' },
+        { img: '/inspection-cotes.png', label: 'Côté gauche & droit' },
+      ],
+      zonesLabel: 'Zones inspectées',
+      groups: [
+        { zone: 'Avant', parts: ['Lunette avant', 'Capot', 'Rétroviseur gauche', 'Rétroviseur droit', 'Phare gauche', 'Phare droit', 'Pare-choc avant central', 'Pare-choc avant gauche', 'Pare-choc avant droit'] },
+        { zone: 'Arrière', parts: ['Lunette arrière', 'Coffre extérieur', 'Phare arrière gauche', 'Phare arrière droit', 'Pare-choc central arrière', 'Pare-choc arrière gauche', 'Pare-choc arrière droit'] },
+        { zone: 'Côté gauche', parts: ['Aile avant gauche', 'Porte avant gauche', 'Porte arrière gauche', 'Aile arrière gauche', 'Bas de caisse gauche', 'Roue avant gauche', 'Roue arrière gauche', 'Vitre avant gauche', 'Vitre arrière gauche', 'Vitre arrière latérale gauche'] },
+        { zone: 'Côté droit', parts: ['Aile avant droite', 'Porte avant droite', 'Porte arrière droite', 'Aile arrière droite', 'Bas de caisse droite', 'Roue avant droite', 'Roue arrière droite', 'Vitre avant droite', 'Vitre arrière droite', 'Vitre arrière latérale droite'] },
+        { zone: 'Toit', parts: ['Toit'] },
+      ],
+    },
   },
   mobile: {
     title: 'Aussi dans votre poche.',
@@ -207,6 +230,22 @@ const en: Content = {
       { id: 'accounting', label: 'Accounting', img: '/comptabilite.png', desc: 'Cash-flow forecast: unpaid installments per month, vehicle leases and invoices due.' },
       { id: 'profitability', label: 'Profitability', img: '/rentabilite.png', desc: 'Profitability analysis: expenses by category and by vehicle, revenue vs expenses.' },
     ],
+    inspection: {
+      intro: 'Every area of the vehicle is a checkpoint. The inspection covers the front, rear, both sides and the roof — each element can be flagged with a located damage, categorized and tracked until resolved.',
+      viewsLabel: 'Inspection views',
+      views: [
+        { img: '/inspection-avant-arriere.png', label: 'Front & rear' },
+        { img: '/inspection-cotes.png', label: 'Left & right side' },
+      ],
+      zonesLabel: 'Inspected areas',
+      groups: [
+        { zone: 'Front', parts: ['Windshield', 'Hood', 'Left mirror', 'Right mirror', 'Left headlight', 'Right headlight', 'Front center bumper', 'Front left bumper', 'Front right bumper'] },
+        { zone: 'Rear', parts: ['Rear window', 'Trunk lid', 'Left tail light', 'Right tail light', 'Rear center bumper', 'Rear left bumper', 'Rear right bumper'] },
+        { zone: 'Left side', parts: ['Front left fender', 'Front left door', 'Rear left door', 'Rear left fender', 'Left rocker panel', 'Front left wheel', 'Rear left wheel', 'Front left window', 'Rear left window', 'Rear left quarter window'] },
+        { zone: 'Right side', parts: ['Front right fender', 'Front right door', 'Rear right door', 'Rear right fender', 'Right rocker panel', 'Front right wheel', 'Rear right wheel', 'Front right window', 'Rear right window', 'Rear right quarter window'] },
+        { zone: 'Roof', parts: ['Roof'] },
+      ],
+    },
   },
   mobile: {
     title: 'In your pocket, too.',

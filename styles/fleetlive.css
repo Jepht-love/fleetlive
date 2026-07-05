@@ -382,6 +382,109 @@ a {
   margin-right: auto;
 }
 
+/* ---------- Onglet Inspection : schémas + zones inspectées ---------- */
+.fl-inspect {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 32px;
+  align-items: start;
+  margin-top: 8px;
+}
+.fl-inspect-views {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.fl-inspect-view {
+  margin: 0;
+  background: #f4f6fa;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.fl-inspect-view img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* planches sur fond clair : pas de filtre bleu ici pour garder le tracé rouge lisible */
+}
+.fl-inspect-view figcaption {
+  margin-top: 10px;
+  text-align: center;
+  color: #55627a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.fl-inspect-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.fl-inspect-intro {
+  margin: 0;
+  color: var(--text);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+.fl-inspect-zones-title {
+  margin: 4px 0 -4px;
+  font-size: 12.5px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+}
+.fl-zone-group {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.fl-zone-group h5 {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--text);
+}
+.fl-zone-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.fl-zone-chip {
+  font-size: 12.5px;
+  color: var(--muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+@media (max-width: 860px) {
+  .fl-inspect {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .fl-inspect-views {
+    flex-direction: row;
+  }
+  .fl-inspect-view {
+    flex: 1;
+  }
+  .fl-zone-group {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+@media (max-width: 560px) {
+  .fl-inspect-views {
+    flex-direction: column;
+  }
+}
+
 /* ============================================================
    MOBILE — mockups téléphone
    ============================================================ */

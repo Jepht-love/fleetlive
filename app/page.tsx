@@ -201,24 +201,53 @@ export default function FleetLivePage() {
             ))}
           </div>
 
-          <div className="fl-browser">
-            <div className="fl-browser-bar">
-              <span className="fl-dot fl-dot--r" />
-              <span className="fl-dot fl-dot--y" />
-              <span className="fl-dot fl-dot--g" />
+          {tab.id === 'inspection' ? (
+            <div className="fl-inspect" key="inspection">
+              <div className="fl-inspect-views">
+                {c.software.inspection.views.map((v) => (
+                  <figure key={v.img} className="fl-inspect-view">
+                    <img src={v.img} alt={v.label} onLoad={() => ScrollTrigger.refresh()} />
+                    <figcaption>{v.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+              <div className="fl-inspect-zones">
+                <p className="fl-inspect-intro">{c.software.inspection.intro}</p>
+                <h4 className="fl-inspect-zones-title">{c.software.inspection.zonesLabel}</h4>
+                {c.software.inspection.groups.map((g) => (
+                  <div key={g.zone} className="fl-zone-group">
+                    <h5>{g.zone}</h5>
+                    <div className="fl-zone-chips">
+                      {g.parts.map((p) => (
+                        <span key={p} className="fl-zone-chip">{p}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            {/* Balayage « scan » — animé une fois par GSAP quand la frame entre à l'écran */}
-            <div className="fl-scan" aria-hidden="true" />
-            {/* La clé force le remount → réanime le fondu à chaque changement d'onglet */}
-            <img
-              key={tab.id}
-              className="fl-browser-shot"
-              src={tab.img}
-              alt={tab.label}
-              onLoad={() => ScrollTrigger.refresh()}
-            />
-          </div>
-          <p className="fl-shot-caption">{tab.desc}</p>
+          ) : (
+            <>
+              <div className="fl-browser">
+                <div className="fl-browser-bar">
+                  <span className="fl-dot fl-dot--r" />
+                  <span className="fl-dot fl-dot--y" />
+                  <span className="fl-dot fl-dot--g" />
+                </div>
+                {/* Balayage « scan » — animé une fois par GSAP quand la frame entre à l'écran */}
+                <div className="fl-scan" aria-hidden="true" />
+                {/* La clé force le remount → réanime le fondu à chaque changement d'onglet */}
+                <img
+                  key={tab.id}
+                  className="fl-browser-shot"
+                  src={tab.img}
+                  alt={tab.label}
+                  onLoad={() => ScrollTrigger.refresh()}
+                />
+              </div>
+              <p className="fl-shot-caption">{tab.desc}</p>
+            </>
+          )}
         </div>
       </section>
 
