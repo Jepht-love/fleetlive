@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import {
   Clock,
@@ -12,37 +11,26 @@ import {
   EyeOff,
   Car,
   Camera,
+  ScanSearch,
   FileText,
   Database,
+  MapPin,
   ArrowDown,
   Check,
 } from 'lucide-react'
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { getContent, type Lang } from '@/lib/content'
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, MotionPathPlugin)
+gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
-// Ordre des nœuds du diagramme orbital : Véhicule (haut-g), Photos (bas-g),
-// Rapport (haut-d), CRM (bas-d). Le cœur central = l'inspection IA.
-const NODE_ICONS = [Car, Camera, FileText, Database]
-// Connecteurs bézier (viewBox 1000×720, cœur au centre 500,360) : sortie
-// horizontale du cœur puis arrivée verticale au nœud, à la manière du schéma Ravin.
-const ORBIT_PATHS = [
-  'M415 345 C305 345 215 257 215 150', // Véhicule — entrée
-  'M415 375 C305 375 215 463 215 570', // Photos — entrée
-  'M585 345 C695 345 785 257 785 150', // Rapport — sortie
-  'M585 375 C695 375 785 463 785 570', // CRM — sortie
-]
-const ORBIT_POS = [
-  { left: '21.5%', top: '20.8%', side: 'left' as const },
-  { left: '21.5%', top: '79.2%', side: 'left' as const },
-  { left: '78.5%', top: '20.8%', side: 'right' as const },
-  { left: '78.5%', top: '79.2%', side: 'right' as const },
-]
+// Flux d'inspection (pipeline vertical) : Véhicule → Photos → Inspection IA
+// → Rapport → CRM. L'étape IA (index 2) porte la confluence Départ/Retour.
+const FLUX_ICONS = [Car, Camera, ScanSearch, FileText, Database]
+const AI_STEP_INDEX = 2
 
 export default function FleetLivePage() {
   const [lang, setLang] = useState<Lang>('fr')
@@ -99,63 +87,39 @@ export default function FleetLivePage() {
         reveal('.fl-phases .fl-phase', '.fl-phases')
         reveal('.fl-pricing', '.fl-pricing')
 
-        // Diagramme orbital « Comment ça fonctionne » — cœur IA + connecteurs
-        // Tracé progressif des courbes au scroll
-        gsap.utils.toArray<SVGPathElement>('.fl-orbit-line').forEach((path, i) => {
-          const len = path.getTotalLength()
-          gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
-          gsap.to(path, {
-            strokeDashoffset: 0,
-            duration: 1.2,
-            ease: 'power2.inOut',
-            delay: i * 0.12,
-            scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
-          })
-        })
-        // Révélation du cœur et des nœuds
-        gsap.from('.fl-orbit-core', {
-          scale: 0.8,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
-        })
-        gsap.from('.fl-orbit-node', {
-          y: 18,
+        // Flux d'inspection — révélation des étapes en cascade le long de la colonne
+        gsap.from('.fl-flux-step', {
+          y: 24,
           opacity: 0,
           duration: 0.6,
           ease: 'power3.out',
-          stagger: 0.12,
-          delay: 0.35,
-          scrollTrigger: { trigger: '.fl-orbit', start: 'top 74%' },
+          stagger: 0.14,
+          scrollTrigger: { trigger: '.fl-flux', start: 'top 78%' },
         })
-        // Pulsations de données : entrées (0,1) vers le cœur, sorties (2,3) vers les nœuds
-        gsap.utils.toArray<SVGCircleElement>('.fl-orbit-pulse').forEach((dot, i) => {
-          const inbound = i < 2
-          gsap.fromTo(
-            dot,
-            { opacity: 0 },
-            {
-              opacity: 1,
-              duration: 0.25,
-              repeat: -1,
-              repeatDelay: 1.85,
-              yoyo: true,
-              delay: 0.6 + i * 0.5,
-            },
-          )
-          gsap.to(dot, {
-            duration: 2.1,
+        // Battement de comparaison : Départ → Retour → écarts localisés
+        gsap
+          .timeline({
             repeat: -1,
-            ease: 'power1.inOut',
-            delay: 0.6 + i * 0.5,
-            motionPath: {
-              path: `#fl-orbit-path-${i}`,
-              start: inbound ? 1 : 0,
-              end: inbound ? 0 : 1,
-            },
+            repeatDelay: 1.1,
+            scrollTrigger: { trigger: '.fl-flux-compare', start: 'top 88%' },
           })
-        })
+          .fromTo(
+            '.fl-flux-dot--dep',
+            { boxShadow: '0 0 0 0 rgba(53, 183, 204, 0.7)' },
+            { boxShadow: '0 0 0 7px rgba(53, 183, 204, 0)', duration: 0.75, ease: 'power2.out' },
+          )
+          .fromTo(
+            '.fl-flux-dot--ret',
+            { boxShadow: '0 0 0 0 rgba(20, 85, 254, 0.7)' },
+            { boxShadow: '0 0 0 7px rgba(20, 85, 254, 0)', duration: 0.75, ease: 'power2.out' },
+            '-=0.4',
+          )
+          .fromTo(
+            '.fl-flux-result',
+            { opacity: 0.5 },
+            { opacity: 1, duration: 0.5, ease: 'power2.out' },
+            '-=0.15',
+          )
 
         // Frame logiciel — entrée + balayage « scan » (signature vision artificielle)
         gsap.from('.fl-browser', {
@@ -347,7 +311,7 @@ export default function FleetLivePage() {
         </div>
       </section>
 
-      {/* ---------- COMMENT ÇA FONCTIONNE — diagramme orbital ---------- */}
+      {/* ---------- COMMENT ÇA FONCTIONNE — flux d'inspection ---------- */}
       <section className="fl-section">
         <div className="fl-container">
           <div className="fl-section-head">
@@ -355,111 +319,49 @@ export default function FleetLivePage() {
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.how.title}</h2>
           </div>
 
-          {/* Composition orbitale (desktop / tablette large) */}
-          <div className="fl-orbit">
-            <svg
-              className="fl-orbit-svg"
-              viewBox="0 0 1000 720"
-              preserveAspectRatio="xMidYMid meet"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="fl-orbit-grad-l" x1="1" y1="0" x2="0" y2="0">
-                  <stop offset="0" stopColor="#1455fe" />
-                  <stop offset="1" stopColor="#7c5cff" />
-                </linearGradient>
-                <linearGradient id="fl-orbit-grad-r" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#1455fe" />
-                  <stop offset="1" stopColor="#7c5cff" />
-                </linearGradient>
-                <radialGradient id="fl-orbit-glow" cx="0.5" cy="0.5" r="0.5">
-                  <stop offset="0" stopColor="rgba(20,85,254,0.30)" />
-                  <stop offset="0.7" stopColor="rgba(124,92,255,0.08)" />
-                  <stop offset="1" stopColor="rgba(20,85,254,0)" />
-                </radialGradient>
-              </defs>
-              <circle cx="500" cy="360" r="250" fill="url(#fl-orbit-glow)" />
-              {ORBIT_PATHS.map((d, i) => (
-                <path
-                  key={d}
-                  id={`fl-orbit-path-${i}`}
-                  className="fl-orbit-line"
-                  d={d}
-                  stroke={i < 2 ? 'url(#fl-orbit-grad-l)' : 'url(#fl-orbit-grad-r)'}
-                />
-              ))}
-              {ORBIT_PATHS.map((d, i) => (
-                <circle key={`p-${d}`} className="fl-orbit-pulse" r="5" />
-              ))}
-            </svg>
+          {/* Pipeline vertical — confluence Départ/Retour à l'étape IA */}
+          <div className="fl-flux">
+            <ol className="fl-flux-track">
+              {c.how.steps.map((s, i) => {
+                const Icon = FLUX_ICONS[i]
+                const isAI = i === AI_STEP_INDEX
+                return (
+                  <li key={s.label} className={`fl-flux-step${isAI ? ' fl-flux-step--ai' : ''}`}>
+                    <span className="fl-flux-node"><Icon size={24} /></span>
+                    <div className="fl-flux-body">
+                      <div className="fl-flux-head">
+                        <span className="fl-flux-index">{String(i + 1).padStart(2, '0')}</span>
+                        <h4>{s.label}</h4>
+                      </div>
+                      <p>{s.desc}</p>
 
-            {/* Cœur IA — élément signature */}
-            <div className="fl-orbit-core">
-              <span className="fl-orbit-core-orb" aria-hidden="true" />
-              <svg className="fl-orbit-ring" viewBox="0 0 200 200" aria-hidden="true">
-                <defs>
-                  <path
-                    id="fl-orbit-ring-path"
-                    d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"
-                  />
-                </defs>
-                <text>
-                  <textPath href="#fl-orbit-ring-path" startOffset="0">
-                    {c.how.core.ring.repeat(2)}
-                  </textPath>
-                </text>
-              </svg>
-              <span className="fl-orbit-core-name">{c.how.core.name}</span>
-            </div>
-
-            {/* Labels d'axe */}
-            <span className="fl-orbit-axis fl-orbit-axis--left">{c.how.captureLabel}</span>
-            <span className="fl-orbit-axis fl-orbit-axis--right">{c.how.outputLabel}</span>
-
-            {/* Nœuds */}
-            {c.how.nodes.map((n, i) => {
-              const Icon = NODE_ICONS[i]
-              const pos = ORBIT_POS[i]
-              return (
-                <div
-                  key={n.label}
-                  className={`fl-orbit-node fl-orbit-node--${pos.side}`}
-                  style={{ left: pos.left, top: pos.top }}
-                >
-                  <span className="fl-orbit-node-icon"><Icon size={22} /></span>
-                  <div className="fl-orbit-node-text">
-                    <h4>{n.label}</h4>
-                    <p>{n.desc}</p>
-                  </div>
-                </div>
-              )
-            })}
+                      {isAI && (
+                        <div className="fl-flux-compare">
+                          <div className="fl-flux-streams">
+                            <div className="fl-flux-stream">
+                              <span className="fl-flux-dot fl-flux-dot--dep" aria-hidden="true" />
+                              <strong>{c.how.compare.departure}</strong>
+                              <span>{c.how.compare.departureNote}</span>
+                            </div>
+                            <div className="fl-flux-stream">
+                              <span className="fl-flux-dot fl-flux-dot--ret" aria-hidden="true" />
+                              <strong>{c.how.compare.return}</strong>
+                              <span>{c.how.compare.returnNote}</span>
+                            </div>
+                          </div>
+                          <hr className="fl-flux-merge-rule" />
+                          <div className="fl-flux-result">
+                            <MapPin size={16} />
+                            {c.how.compare.result}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
           </div>
-
-          <p className="fl-orbit-caption">{c.how.core.caption}</p>
-
-          {/* Repli vertical (mobile) */}
-          <ol className="fl-orbit-mobile">
-            <li className="fl-orbit-mstep fl-orbit-mstep--core">
-              <span className="fl-orbit-micon fl-orbit-micon--core" aria-hidden="true" />
-              <div>
-                <h4>{c.how.core.name}</h4>
-                <p>{c.how.core.caption}</p>
-              </div>
-            </li>
-            {c.how.nodes.map((n, i) => {
-              const Icon = NODE_ICONS[i]
-              return (
-                <li key={n.label} className="fl-orbit-mstep">
-                  <span className="fl-orbit-micon"><Icon size={20} /></span>
-                  <div>
-                    <h4>{n.label}</h4>
-                    <p>{n.desc}</p>
-                  </div>
-                </li>
-              )
-            })}
-          </ol>
         </div>
       </section>
 

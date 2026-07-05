@@ -44,10 +44,14 @@ export interface Content {
   }
   how: {
     title: string
-    captureLabel: string
-    outputLabel: string
-    core: { ring: string; name: string; caption: string }
-    nodes: { label: string; desc: string }[]
+    steps: { label: string; desc: string }[]
+    compare: {
+      departure: string
+      departureNote: string
+      return: string
+      returnNote: string
+      result: string
+    }
   }
   roi: {
     title: string
@@ -141,19 +145,20 @@ const fr: Content = {
   },
   how: {
     title: 'Comment ça fonctionne.',
-    captureLabel: 'Capture',
-    outputLabel: 'Restitution',
-    core: {
-      ring: 'INSPECTION IA · DÉPART · RETOUR · ',
-      name: 'Inspection IA',
-      caption: 'Comparaison automatique départ / retour — chaque dommage est détecté, localisé et suivi.',
-    },
-    nodes: [
-      { label: 'Véhicule', desc: 'Retour au parc' },
-      { label: 'Photos', desc: 'Prises via le logiciel au retour du véhicule' },
-      { label: 'Rapport', desc: 'Écarts constatés, export PDF instantané' },
-      { label: 'CRM', desc: 'Fiche véhicule mise à jour — facturation, litiges, maintenance' },
+    steps: [
+      { label: 'Véhicule', desc: 'Retour au parc.' },
+      { label: 'Photos', desc: 'Prises via le logiciel au retour du véhicule.' },
+      { label: 'Inspection IA', desc: 'Comparaison automatique départ / retour — chaque dommage est détecté, localisé et suivi.' },
+      { label: 'Rapport', desc: 'Écarts constatés, export PDF instantané.' },
+      { label: 'CRM', desc: 'Fiche véhicule mise à jour — facturation, litiges, maintenance.' },
     ],
+    compare: {
+      departure: 'Départ',
+      departureNote: 'photos de référence',
+      return: 'Retour',
+      returnNote: 'photos au retour du véhicule',
+      result: 'Écarts détectés & localisés',
+    },
   },
   roi: {
     title: 'Retour sur investissement.',
@@ -266,19 +271,20 @@ const en: Content = {
   },
   how: {
     title: 'How it works.',
-    captureLabel: 'Capture',
-    outputLabel: 'Output',
-    core: {
-      ring: 'AI INSPECTION · DEPARTURE · RETURN · ',
-      name: 'AI inspection',
-      caption: 'Automatic departure/return comparison — every damage is detected, located and tracked.',
-    },
-    nodes: [
-      { label: 'Vehicle', desc: 'Returns to the depot' },
-      { label: 'Photos', desc: 'Taken via the software upon vehicle return' },
-      { label: 'Report', desc: 'Discrepancies flagged, instant PDF export' },
-      { label: 'CRM', desc: 'Vehicle record updated — billing, disputes, maintenance' },
+    steps: [
+      { label: 'Vehicle', desc: 'Returns to the depot.' },
+      { label: 'Photos', desc: 'Taken via the software upon vehicle return.' },
+      { label: 'AI inspection', desc: 'Automatic departure/return comparison — every damage is detected, located and tracked.' },
+      { label: 'Report', desc: 'Discrepancies flagged, instant PDF export.' },
+      { label: 'CRM', desc: 'Vehicle record updated — billing, disputes, maintenance.' },
     ],
+    compare: {
+      departure: 'Departure',
+      departureNote: 'reference photos',
+      return: 'Return',
+      returnNote: 'photos on vehicle return',
+      result: 'Discrepancies detected & located',
+    },
   },
   roi: {
     title: 'Return on investment.',

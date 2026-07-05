@@ -645,230 +645,165 @@ a {
 }
 
 /* ============================================================
-   COMMENT ÇA FONCTIONNE — diagramme orbital (cœur IA + connecteurs)
+   COMMENT ÇA FONCTIONNE — flux d'inspection (pipeline vertical)
+   Confluence Départ (cyan) / Retour (bleu) à l'étape IA.
    ============================================================ */
-.fl-orbit {
+.fl-flux {
+  --stream-dep: #35b7cc;
+  --stream-ret: var(--accent);
   position: relative;
-  width: 100%;
-  max-width: 900px;
-  margin: 8px auto 0;
-  aspect-ratio: 1000 / 720;
-}
-.fl-orbit-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-.fl-orbit-line {
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  opacity: 0.85;
-}
-.fl-orbit-pulse {
-  fill: #fff;
-  filter: drop-shadow(0 0 6px rgba(124, 92, 255, 0.9));
-  opacity: 0;
-}
-
-/* Cœur IA — orbe iridescent + anneau de texte rotatif */
-.fl-orbit-core {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 22%;
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fl-orbit-core-orb {
-  position: absolute;
-  inset: 14%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 38% 32%, rgba(150, 180, 255, 0.55), rgba(150, 180, 255, 0) 42%),
-    radial-gradient(circle at 62% 70%, rgba(124, 92, 255, 0.5), rgba(124, 92, 255, 0) 55%),
-    radial-gradient(circle at 50% 50%, #17275a 0%, #0a1430 60%, #070d1f 100%);
-  box-shadow:
-    0 0 0 1px rgba(124, 92, 255, 0.35) inset,
-    0 0 50px rgba(20, 85, 254, 0.5),
-    0 0 90px rgba(124, 92, 255, 0.25);
-  animation: fl-breathe 5.5s ease-in-out infinite;
-}
-.fl-orbit-ring {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  animation: fl-spin 26s linear infinite;
-  transform-origin: 50% 50%;
-}
-.fl-orbit-ring text {
-  fill: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-.fl-orbit-ring path {
-  fill: none;
-}
-.fl-orbit-core-name {
-  position: relative;
-  z-index: 1;
-  font-size: clamp(12px, 1.4vw, 15px);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-align: center;
-  color: var(--text);
-  max-width: 76%;
-  line-height: 1.25;
-}
-
-/* Labels d'axe (Capture / Restitution) */
-.fl-orbit-axis {
-  position: absolute;
-  top: 44%;
-  transform: translate(-50%, -50%);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-  pointer-events: none;
-}
-.fl-orbit-axis--left {
-  left: 32%;
-}
-.fl-orbit-axis--right {
-  left: 68%;
-}
-
-/* Nœuds */
-.fl-orbit-node {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 216px;
-  padding: 14px 16px;
-  background: rgba(11, 18, 32, 0.72);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
-  backdrop-filter: blur(6px);
-}
-.fl-orbit-node--right {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-.fl-orbit-node-icon {
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), #7c5cff);
-  box-shadow: 0 6px 20px rgba(20, 85, 254, 0.35);
-}
-.fl-orbit-node-text h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 3px;
-}
-.fl-orbit-node-text p {
-  color: var(--muted);
-  font-size: 12.5px;
-  line-height: 1.5;
-}
-.fl-orbit-caption {
-  max-width: 620px;
-  margin: 12px auto 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* Repli vertical (mobile) — masqué par défaut */
-.fl-orbit-mobile {
-  display: none;
-  list-style: none;
-  max-width: 460px;
+  max-width: 660px;
   margin: 28px auto 0;
-  padding: 0;
 }
-.fl-orbit-mstep {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: start;
-  gap: 16px;
-  position: relative;
-  padding-bottom: 26px;
-}
-.fl-orbit-mstep:not(:last-child)::before {
+/* halo ambiant derrière la colonne */
+.fl-flux::before {
   content: '';
   position: absolute;
-  left: 21px;
-  top: 44px;
-  bottom: 4px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent), rgba(124, 92, 255, 0.25));
+  left: 31px;
+  top: 10%;
+  bottom: 10%;
+  width: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(55% 50% at 0% 50%, rgba(20, 85, 254, 0.1), transparent 72%);
+  pointer-events: none;
 }
-.fl-orbit-micon {
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+.fl-flux-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.fl-flux-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 22px;
+  padding-bottom: 34px;
+}
+.fl-flux-step:last-child {
+  padding-bottom: 0;
+}
+/* segment de colonne reliant les nœuds */
+.fl-flux-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 58px;
+  bottom: -4px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, var(--stream-ret), rgba(53, 183, 204, 0.55));
+}
+.fl-flux-node {
+  position: relative;
+  z-index: 1;
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), #7c5cff);
+  color: #cdd8ee;
+  background: linear-gradient(145deg, #14213f, #0b1424);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
 }
-.fl-orbit-micon--core {
-  background:
-    radial-gradient(circle at 40% 35%, rgba(150, 180, 255, 0.6), rgba(150, 180, 255, 0) 45%),
-    radial-gradient(circle at 55% 65%, #17275a, #0a1430 70%);
-  box-shadow: 0 0 24px rgba(20, 85, 254, 0.5);
+.fl-flux-body {
+  min-width: 0;
+  padding-top: 6px;
 }
-.fl-orbit-mstep h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 10px 0 4px;
+.fl-flux-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.fl-orbit-mstep p {
+.fl-flux-index {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   color: var(--muted);
-  font-size: 13.5px;
-  line-height: 1.55;
+}
+.fl-flux-body h4 {
+  font-size: 17px;
+  font-weight: 600;
+}
+.fl-flux-body > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 7px;
+  max-width: 48ch;
 }
 
-@keyframes fl-spin {
-  to {
-    transform: rotate(360deg);
-  }
+/* Étape IA — nœud héros (cyan → bleu) */
+.fl-flux-step--ai .fl-flux-node {
+  color: #fff;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(120, 210, 230, 0.55), transparent 46%),
+    radial-gradient(circle at 68% 74%, rgba(20, 85, 254, 0.6), transparent 56%),
+    linear-gradient(145deg, #123049, #0b1424);
+  border-color: rgba(53, 183, 204, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(53, 183, 204, 0.25) inset,
+    0 0 34px rgba(20, 85, 254, 0.45);
 }
-@keyframes fl-breathe {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 1px rgba(124, 92, 255, 0.35) inset,
-      0 0 50px rgba(20, 85, 254, 0.5),
-      0 0 90px rgba(124, 92, 255, 0.25);
-  }
-  50% {
-    box-shadow:
-      0 0 0 1px rgba(124, 92, 255, 0.5) inset,
-      0 0 70px rgba(20, 85, 254, 0.65),
-      0 0 120px rgba(124, 92, 255, 0.4);
-  }
+
+/* Carte de comparaison (confluence Départ / Retour) */
+.fl-flux-compare {
+  margin-top: 16px;
+  max-width: 440px;
+  padding: 16px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: rgba(11, 18, 32, 0.6);
+}
+.fl-flux-streams {
+  display: grid;
+  gap: 11px;
+}
+.fl-flux-stream {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+}
+.fl-flux-dot {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.fl-flux-dot--dep {
+  background: var(--stream-dep);
+}
+.fl-flux-dot--ret {
+  background: var(--stream-ret);
+}
+.fl-flux-stream strong {
+  font-weight: 600;
+  color: var(--text);
+}
+.fl-flux-stream > span:last-child {
+  color: var(--muted);
+}
+.fl-flux-merge-rule {
+  height: 1px;
+  margin: 14px 0;
+  border: 0;
+  background: linear-gradient(90deg, var(--stream-dep), var(--stream-ret));
+  opacity: 0.55;
+}
+.fl-flux-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.fl-flux-result svg {
+  flex: 0 0 auto;
+  color: var(--stream-dep);
 }
 
 /* ============================================================
@@ -1094,27 +1029,25 @@ a {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 1024px) {
-  .fl-orbit-node {
-    width: 190px;
-    padding: 12px 13px;
-    gap: 11px;
+@media (max-width: 560px) {
+  .fl-flux-step {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 16px;
   }
-  .fl-orbit-node-text p {
-    font-size: 12px;
+  .fl-flux::before,
+  .fl-flux-step:not(:last-child)::before {
+    left: 26px;
   }
-}
-
-/* Sous 780px : le diagramme orbital cède la place au repli vertical */
-@media (max-width: 780px) {
-  .fl-orbit {
-    display: none;
+  .fl-flux-node {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
   }
-  .fl-orbit-caption {
-    display: none;
+  .fl-flux-step:not(:last-child)::before {
+    top: 50px;
   }
-  .fl-orbit-mobile {
-    display: block;
+  .fl-flux-compare {
+    padding: 14px 15px;
   }
 }
 
@@ -1152,9 +1085,7 @@ a {
   html {
     scroll-behavior: auto;
   }
-  .fl-browser-shot,
-  .fl-orbit-ring,
-  .fl-orbit-core-orb {
+  .fl-browser-shot {
     animation: none;
   }
 }
