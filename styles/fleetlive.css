@@ -648,110 +648,189 @@ a {
    COMMENT ÇA FONCTIONNE — flux d'inspection (pipeline vertical)
    Confluence Départ (cyan) / Retour (bleu) à l'étape IA.
    ============================================================ */
-.fl-flux {
-  --stream-dep: #35b7cc;
-  --stream-ret: var(--accent);
+/* ============================================================
+   MOTEUR D'INSPECTION — hub radial géométrique (or / lapis / turquoise)
+   Cœur IA au centre, satellites entrées (gauche) → sorties (droite).
+   Géométrie carrée/losange (motif « égyptien ») + rayons pulsés.
+   ============================================================ */
+.fl-hub {
+  --gold: #d4a24e;
+  --gold-bright: #f0c88f;
+  --lapis: var(--accent);
+  --turq: #35b7cc;
   position: relative;
-  max-width: 660px;
-  margin: 28px auto 0;
+  max-width: 720px;
+  margin: 34px auto 0;
 }
-/* halo ambiant derrière la colonne */
-.fl-flux::before {
+/* halo ambiant centré sur le cœur */
+.fl-hub::before {
   content: '';
   position: absolute;
-  left: 31px;
-  top: 10%;
-  bottom: 10%;
-  width: 260px;
+  left: 50%;
+  top: 0;
+  width: 520px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
   transform: translateX(-50%);
-  background: radial-gradient(55% 50% at 0% 50%, rgba(20, 85, 254, 0.1), transparent 72%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(20, 85, 254, 0.14),
+    rgba(212, 162, 78, 0.05) 42%,
+    transparent 66%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.fl-hub-stage {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+}
+/* toile de rayons (SVG) */
+.fl-hub-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   pointer-events: none;
 }
-.fl-flux-track {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
+.fl-hub-line {
+  stroke: rgba(212, 162, 78, 0.32);
+  stroke-width: 0.4;
+  stroke-dasharray: 1.1 1.7;
 }
-.fl-flux-step {
-  position: relative;
-  display: grid;
-  grid-template-columns: 62px minmax(0, 1fr);
-  gap: 22px;
-  padding-bottom: 34px;
+.fl-hub-pulse {
+  fill: var(--gold-bright);
+  opacity: 0;
+  filter: drop-shadow(0 0 1.6px rgba(240, 200, 143, 0.9));
 }
-.fl-flux-step:last-child {
-  padding-bottom: 0;
-}
-/* segment de colonne reliant les nœuds */
-.fl-flux-step:not(:last-child)::before {
-  content: '';
+
+/* Cœur — losange rotatif à double cadre */
+.fl-hub-core {
   position: absolute;
-  left: 31px;
-  top: 58px;
-  bottom: -4px;
-  width: 2px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, var(--stream-ret), rgba(53, 183, 204, 0.55));
-}
-.fl-flux-node {
-  position: relative;
-  z-index: 1;
-  width: 62px;
-  height: 62px;
-  border-radius: 16px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 152px;
+  height: 152px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #cdd8ee;
-  background: linear-gradient(145deg, #14213f, #0b1424);
-  border: 1px solid var(--border-strong);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+  z-index: 2;
 }
-.fl-flux-body {
-  min-width: 0;
-  padding-top: 6px;
+.fl-hub-frame,
+.fl-hub-frame-inner {
+  position: absolute;
+  pointer-events: none;
 }
-.fl-flux-head {
+.fl-hub-frame {
+  inset: 0;
+  border: 1.5px solid rgba(212, 162, 78, 0.7);
+  background:
+    radial-gradient(circle at 32% 28%, rgba(20, 85, 254, 0.42), transparent 55%),
+    radial-gradient(circle at 72% 76%, rgba(53, 183, 204, 0.26), transparent 58%),
+    linear-gradient(150deg, #14213f, #0a1120);
+  box-shadow:
+    0 0 0 1px rgba(212, 162, 78, 0.18) inset,
+    0 0 42px rgba(20, 85, 254, 0.35),
+    0 0 24px rgba(212, 162, 78, 0.22);
+}
+.fl-hub-frame-inner {
+  inset: 17px;
+  border: 1px solid rgba(212, 162, 78, 0.32);
+}
+.fl-hub-core-inner {
+  position: relative;
+  z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
+  color: #fff;
 }
-.fl-flux-index {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--muted);
+.fl-hub-core-inner svg {
+  color: var(--gold-bright);
 }
-.fl-flux-body h4 {
-  font-size: 17px;
+.fl-hub-core-label {
+  font-size: 13px;
   font-weight: 600;
-}
-.fl-flux-body > p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-top: 7px;
-  max-width: 48ch;
+  letter-spacing: 0.01em;
 }
 
-/* Étape IA — nœud héros (cyan → bleu) */
-.fl-flux-step--ai .fl-flux-node {
-  color: #fff;
-  background:
-    radial-gradient(circle at 34% 30%, rgba(120, 210, 230, 0.55), transparent 46%),
-    radial-gradient(circle at 68% 74%, rgba(20, 85, 254, 0.6), transparent 56%),
-    linear-gradient(145deg, #123049, #0b1424);
-  border-color: rgba(53, 183, 204, 0.5);
+/* Satellites — glyphes carrés biseautés (entrées / sorties) */
+.fl-hub-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+}
+.fl-hub-node--in-1 {
+  left: 12%;
+  top: 15%;
+}
+.fl-hub-node--in-2 {
+  left: 12%;
+  top: 85%;
+}
+.fl-hub-node--out-1 {
+  left: 88%;
+  top: 15%;
+}
+.fl-hub-node--out-2 {
+  left: 88%;
+  top: 85%;
+}
+.fl-hub-glyph {
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d7e0f2;
+  background: linear-gradient(150deg, #16233f, #0b1424);
+  clip-path: polygon(
+    20% 0,
+    80% 0,
+    100% 20%,
+    100% 80%,
+    80% 100%,
+    20% 100%,
+    0 80%,
+    0 20%
+  );
   box-shadow:
-    0 0 0 1px rgba(53, 183, 204, 0.25) inset,
-    0 0 34px rgba(20, 85, 254, 0.45);
+    inset 0 0 0 1px rgba(212, 162, 78, 0.5),
+    0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.fl-hub-node-label {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.fl-hub-node-desc {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 150px;
 }
 
 /* Carte de comparaison (confluence Départ / Retour) */
+.fl-hub-compare {
+  max-width: 460px;
+  margin: 26px auto 0;
+  position: relative;
+  z-index: 1;
+}
 .fl-flux-compare {
-  margin-top: 16px;
-  max-width: 440px;
   padding: 16px 18px;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
@@ -774,10 +853,10 @@ a {
   border-radius: 50%;
 }
 .fl-flux-dot--dep {
-  background: var(--stream-dep);
+  background: var(--turq);
 }
 .fl-flux-dot--ret {
-  background: var(--stream-ret);
+  background: var(--lapis);
 }
 .fl-flux-stream strong {
   font-weight: 600;
@@ -790,8 +869,8 @@ a {
   height: 1px;
   margin: 14px 0;
   border: 0;
-  background: linear-gradient(90deg, var(--stream-dep), var(--stream-ret));
-  opacity: 0.55;
+  background: linear-gradient(90deg, var(--turq), var(--gold), var(--lapis));
+  opacity: 0.7;
 }
 .fl-flux-result {
   display: flex;
@@ -803,7 +882,7 @@ a {
 }
 .fl-flux-result svg {
   flex: 0 0 auto;
-  color: var(--stream-dep);
+  color: var(--gold);
 }
 
 /* ============================================================
@@ -1029,22 +1108,67 @@ a {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+/* Hub : radial en desktop → pile verticale en mobile (une seule structure) */
+@media (max-width: 720px) {
+  .fl-hub-web,
+  .fl-hub::before {
+    display: none;
+  }
+  .fl-hub-stage {
+    max-width: 340px;
+    height: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 6px 0;
+  }
+  /* colonne reliant les étapes empilées */
+  .fl-hub-stage::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 44px;
+    bottom: 44px;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, var(--turq), var(--gold), var(--lapis));
+    opacity: 0.5;
+    z-index: 0;
+  }
+  .fl-hub-node,
+  .fl-hub-core {
+    position: static;
+    transform: none;
+    z-index: 1;
+  }
+  .fl-hub-node {
+    width: auto;
+    max-width: 268px;
+  }
+  .fl-hub-node-desc {
+    max-width: 240px;
+  }
+  .fl-hub-node--in-1 {
+    order: 1;
+  }
+  .fl-hub-node--in-2 {
+    order: 2;
+  }
+  .fl-hub-core {
+    order: 3;
+  }
+  .fl-hub-node--out-1 {
+    order: 4;
+  }
+  .fl-hub-node--out-2 {
+    order: 5;
+  }
+}
 @media (max-width: 560px) {
-  .fl-flux-step {
-    grid-template-columns: 52px minmax(0, 1fr);
-    gap: 16px;
-  }
-  .fl-flux::before,
-  .fl-flux-step:not(:last-child)::before {
-    left: 26px;
-  }
-  .fl-flux-node {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-  }
-  .fl-flux-step:not(:last-child)::before {
-    top: 50px;
+  .fl-hub {
+    margin-top: 24px;
   }
   .fl-flux-compare {
     padding: 14px 15px;

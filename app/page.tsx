@@ -27,10 +27,13 @@ const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
-// Flux d'inspection (pipeline vertical) : Véhicule → Photos → Inspection IA
-// → Rapport → CRM. L'étape IA (index 2) porte la confluence Départ/Retour.
+// Moteur d'inspection (hub radial géométrique) : Inspection IA au cœur,
+// entrées (Véhicule, Photos) à gauche, sorties (Rapport, CRM) à droite.
+// L'étape IA (index 2) porte la confluence Départ/Retour (signature propre).
 const FLUX_ICONS = [Car, Camera, ScanSearch, FileText, Database]
 const AI_STEP_INDEX = 2
+// Position radiale de chaque étape hors-IA (par index de l'étape)
+const HUB_POS: Record<number, string> = { 0: 'in-1', 1: 'in-2', 3: 'out-1', 4: 'out-2' }
 
 export default function FleetLivePage() {
   const [lang, setLang] = useState<Lang>('fr')
@@ -87,21 +90,59 @@ export default function FleetLivePage() {
         reveal('.fl-phases .fl-phase', '.fl-phases')
         reveal('.fl-pricing', '.fl-pricing')
 
-        // Flux d'inspection — révélation des étapes en cascade le long de la colonne
-        gsap.from('.fl-flux-step', {
-          y: 24,
+        // Moteur d'inspection — révélation du cœur et des satellites
+        gsap.from('.fl-hub-node, .fl-hub-core', {
+          scale: 0.6,
           opacity: 0,
           duration: 0.6,
-          ease: 'power3.out',
-          stagger: 0.14,
-          scrollTrigger: { trigger: '.fl-flux', start: 'top 78%' },
+          ease: 'back.out(1.5)',
+          stagger: 0.12,
+          scrollTrigger: { trigger: '.fl-hub', start: 'top 78%' },
         })
-        // Battement de comparaison : Départ → Retour → écarts localisés
+        // Cadres géométriques du cœur — rotation lente contra-rotative (motif carré)
+        gsap.to('.fl-hub-frame', {
+          rotate: 360,
+          transformOrigin: '50% 50%',
+          duration: 30,
+          ease: 'none',
+          repeat: -1,
+        })
+        gsap.to('.fl-hub-frame-inner', {
+          rotate: -360,
+          transformOrigin: '50% 50%',
+          duration: 44,
+          ease: 'none',
+          repeat: -1,
+        })
+        // Impulsions de données le long des rayons (entrées → cœur → sorties)
+        const HUB_PULSES = [
+          { sel: '.fl-hub-pulse--in-1', from: [12, 15], to: [50, 50], delay: 0 },
+          { sel: '.fl-hub-pulse--in-2', from: [12, 85], to: [50, 50], delay: 0.55 },
+          { sel: '.fl-hub-pulse--out-1', from: [50, 50], to: [88, 15], delay: 1.1 },
+          { sel: '.fl-hub-pulse--out-2', from: [50, 50], to: [88, 85], delay: 1.65 },
+        ]
+        HUB_PULSES.forEach(({ sel, from, to, delay }) => {
+          gsap
+            .timeline({
+              repeat: -1,
+              repeatDelay: 0.8,
+              delay,
+              scrollTrigger: { trigger: '.fl-hub', start: 'top 80%' },
+            })
+            .fromTo(
+              sel,
+              { attr: { cx: from[0], cy: from[1] }, opacity: 0 },
+              { opacity: 1, duration: 0.3, ease: 'power1.out' },
+            )
+            .to(sel, { attr: { cx: to[0], cy: to[1] }, duration: 1.4, ease: 'none' }, 0)
+            .to(sel, { opacity: 0, duration: 0.35, ease: 'power1.in' }, 1.15)
+        })
+        // Battement de la signature Départ → Retour → écarts localisés
         gsap
           .timeline({
             repeat: -1,
             repeatDelay: 1.1,
-            scrollTrigger: { trigger: '.fl-flux-compare', start: 'top 88%' },
+            scrollTrigger: { trigger: '.fl-hub-compare', start: 'top 90%' },
           })
           .fromTo(
             '.fl-flux-dot--dep',
@@ -116,7 +157,7 @@ export default function FleetLivePage() {
           )
           .fromTo(
             '.fl-flux-result',
-            { opacity: 0.5 },
+            { opacity: 0.55 },
             { opacity: 1, duration: 0.5, ease: 'power2.out' },
             '-=0.15',
           )
@@ -319,48 +360,69 @@ export default function FleetLivePage() {
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.how.title}</h2>
           </div>
 
-          {/* Pipeline vertical — confluence Départ/Retour à l'étape IA */}
-          <div className="fl-flux">
-            <ol className="fl-flux-track">
+          {/* Hub radial géométrique — cœur IA, satellites entrées/sorties */}
+          <div className="fl-hub">
+            <div className="fl-hub-stage">
+              <svg
+                className="fl-hub-web"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true"
+              >
+                <line className="fl-hub-line" x1="12" y1="15" x2="50" y2="50" />
+                <line className="fl-hub-line" x1="12" y1="85" x2="50" y2="50" />
+                <line className="fl-hub-line" x1="50" y1="50" x2="88" y2="15" />
+                <line className="fl-hub-line" x1="50" y1="50" x2="88" y2="85" />
+                <circle className="fl-hub-pulse fl-hub-pulse--in-1" r="1.4" cx="12" cy="15" />
+                <circle className="fl-hub-pulse fl-hub-pulse--in-2" r="1.4" cx="12" cy="85" />
+                <circle className="fl-hub-pulse fl-hub-pulse--out-1" r="1.4" cx="50" cy="50" />
+                <circle className="fl-hub-pulse fl-hub-pulse--out-2" r="1.4" cx="50" cy="50" />
+              </svg>
+
               {c.how.steps.map((s, i) => {
                 const Icon = FLUX_ICONS[i]
-                const isAI = i === AI_STEP_INDEX
-                return (
-                  <li key={s.label} className={`fl-flux-step${isAI ? ' fl-flux-step--ai' : ''}`}>
-                    <span className="fl-flux-node"><Icon size={24} /></span>
-                    <div className="fl-flux-body">
-                      <div className="fl-flux-head">
-                        <span className="fl-flux-index">{String(i + 1).padStart(2, '0')}</span>
-                        <h4>{s.label}</h4>
-                      </div>
-                      <p>{s.desc}</p>
-
-                      {isAI && (
-                        <div className="fl-flux-compare">
-                          <div className="fl-flux-streams">
-                            <div className="fl-flux-stream">
-                              <span className="fl-flux-dot fl-flux-dot--dep" aria-hidden="true" />
-                              <strong>{c.how.compare.departure}</strong>
-                              <span>{c.how.compare.departureNote}</span>
-                            </div>
-                            <div className="fl-flux-stream">
-                              <span className="fl-flux-dot fl-flux-dot--ret" aria-hidden="true" />
-                              <strong>{c.how.compare.return}</strong>
-                              <span>{c.how.compare.returnNote}</span>
-                            </div>
-                          </div>
-                          <hr className="fl-flux-merge-rule" />
-                          <div className="fl-flux-result">
-                            <MapPin size={16} />
-                            {c.how.compare.result}
-                          </div>
-                        </div>
-                      )}
+                if (i === AI_STEP_INDEX) {
+                  return (
+                    <div key={s.label} className="fl-hub-core">
+                      <span className="fl-hub-frame" aria-hidden="true" />
+                      <span className="fl-hub-frame-inner" aria-hidden="true" />
+                      <span className="fl-hub-core-inner">
+                        <Icon size={26} />
+                        <span className="fl-hub-core-label">{s.label}</span>
+                      </span>
                     </div>
-                  </li>
+                  )
+                }
+                return (
+                  <div key={s.label} className={`fl-hub-node fl-hub-node--${HUB_POS[i]}`}>
+                    <span className="fl-hub-glyph"><Icon size={22} /></span>
+                    <span className="fl-hub-node-label">{s.label}</span>
+                    <p className="fl-hub-node-desc">{s.desc}</p>
+                  </div>
                 )
               })}
-            </ol>
+            </div>
+
+            {/* Signature propre : confluence Départ / Retour */}
+            <div className="fl-hub-compare fl-flux-compare">
+              <div className="fl-flux-streams">
+                <div className="fl-flux-stream">
+                  <span className="fl-flux-dot fl-flux-dot--dep" aria-hidden="true" />
+                  <strong>{c.how.compare.departure}</strong>
+                  <span>{c.how.compare.departureNote}</span>
+                </div>
+                <div className="fl-flux-stream">
+                  <span className="fl-flux-dot fl-flux-dot--ret" aria-hidden="true" />
+                  <strong>{c.how.compare.return}</strong>
+                  <span>{c.how.compare.returnNote}</span>
+                </div>
+              </div>
+              <hr className="fl-flux-merge-rule" />
+              <div className="fl-flux-result">
+                <MapPin size={16} />
+                {c.how.compare.result}
+              </div>
+            </div>
           </div>
         </div>
       </section>
