@@ -23,7 +23,7 @@ import { getContent, type Lang } from '@/lib/content'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-const CONTACT_EMAIL = 'projobs01@gmail.com'
+const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
