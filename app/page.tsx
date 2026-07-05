@@ -23,6 +23,8 @@ import { getContent, type Lang } from '@/lib/content'
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const CONTACT_EMAIL = 'projobs01@gmail.com'
+// Clé d'accès publique Web3Forms (safe côté client) — obtenue sur web3forms.com
+const WEB3FORMS_ACCESS_KEY = '17641208-3f89-4213-b5a7-74ec36d4f67e'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
 const STEP_ICONS = [Car, Camera, Cpu, FileText, Database]
 
@@ -367,22 +369,48 @@ function ContactForm({ c }: { c: ReturnType<typeof getContent> }) {
   const f = c.deploy.form
   const [form, setForm] = useState({ firstName: '', email: '', fleet: '', message: '' })
 
+  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
+
   const update = (k: keyof typeof form) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
       setForm((s) => ({ ...s, [k]: e.target.value }))
 
-  // On ouvre le client mail de l'utilisateur pré-rempli : c'est lui qui envoie.
-  const handleSubmit = (e: React.FormEvent) => {
+  // Envoi direct via Web3Forms (sans backend) : on reste sur la page.
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const subject = `FleetLive — ${f.submit} (${form.firstName || 'Contact'})`
-    const body = [
-      `${f.firstName}: ${form.firstName}`,
-      `${f.email}: ${form.email}`,
-      `${f.fleetSize}: ${form.fleet}`,
-      '',
-      form.message,
-    ].join('\n')
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    setStatus('sending')
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `FleetLive — ${f.submit} (${form.firstName || 'Contact'})`,
+          from_name: form.firstName || 'FleetLive',
+          email: form.email,
+          [f.firstName]: form.firstName,
+          [f.fleetSize]: form.fleet,
+          [f.message]: form.message,
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('ok')
+        setForm({ firstName: '', email: '', fleet: '', message: '' })
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'ok') {
+    return (
+      <div className="fl-form-status fl-form-status--ok" role="status">
+        {f.success}
+      </div>
+    )
   }
 
   return (
@@ -406,7 +434,12 @@ function ContactForm({ c }: { c: ReturnType<typeof getContent> }) {
         <label htmlFor="fl-message">{f.message}</label>
         <textarea id="fl-message" className="fl-textarea" value={form.message} onChange={update('message')} />
       </div>
-      <button type="submit" className="fl-btn fl-btn--primary fl-form-submit">{f.submit}</button>
+      <button type="submit" className="fl-btn fl-btn--primary fl-form-submit" disabled={status === 'sending'}>
+        {status === 'sending' ? f.sending : f.submit}
+      </button>
+      {status === 'error' && (
+        <p className="fl-form-status fl-form-status--error" role="alert">{f.error}</p>
+      )}
     </form>
   )
 }

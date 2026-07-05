@@ -514,6 +514,27 @@ a {
 }
 
 /* ============================================================
+   FORMULAIRE — messages d'état
+   ============================================================ */
+.fl-form-status {
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.fl-form-status--ok {
+  border: 1px solid rgba(45, 200, 120, 0.35);
+  background: rgba(45, 200, 120, 0.1);
+  color: var(--text);
+}
+.fl-form-status--error {
+  margin-top: 14px;
+  border: 1px solid rgba(255, 90, 90, 0.35);
+  background: rgba(255, 90, 90, 0.1);
+  color: var(--text);
+}
+
+/* ============================================================
    COMMENT ÇA FONCTIONNE — flow 5 étapes
    ============================================================ */
 .fl-flow {

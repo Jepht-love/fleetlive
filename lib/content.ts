@@ -63,6 +63,9 @@ export interface Content {
       fleetOptions: string[]
       message: string
       submit: string
+      sending: string
+      success: string
+      error: string
     }
   }
   footer: string
@@ -162,6 +165,9 @@ const fr: Content = {
       fleetOptions: ['< 50', '50–200', '200–1000', '1000+'],
       message: 'Message',
       submit: 'Demander une démonstration',
+      sending: 'Envoi en cours…',
+      success: 'Merci ! Votre demande a bien été envoyée. Nous vous recontactons rapidement.',
+      error: 'L’envoi a échoué. Réessayez, ou écrivez-nous directement à projobs01@gmail.com.',
     },
   },
   footer: '© 2026 FleetLive',
@@ -261,6 +267,9 @@ const en: Content = {
       fleetOptions: ['< 50', '50–200', '200–1000', '1000+'],
       message: 'Message',
       submit: 'Request a demonstration',
+      sending: 'Sending…',
+      success: 'Thank you! Your request has been sent. We’ll get back to you shortly.',
+      error: 'Sending failed. Please try again, or email us at projobs01@gmail.com.',
     },
   },
   footer: '© 2026 FleetLive',
