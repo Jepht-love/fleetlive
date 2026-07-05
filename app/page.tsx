@@ -75,6 +75,7 @@ export default function FleetLivePage() {
           })
 
         reveal('.fl-grid-2 .fl-card', '.fl-grid-2')
+        reveal('.fl-phones .fl-phone-item', '.fl-phones')
         reveal('.fl-flow .fl-step', '.fl-flow')
         reveal('.fl-roi-metric', '.fl-roi-metrics')
         reveal('.fl-grid-3 .fl-tier', '.fl-grid-3')
@@ -217,11 +218,38 @@ export default function FleetLivePage() {
         </div>
       </section>
 
-      {/* ---------- COMMENT ÇA FONCTIONNE ---------- */}
-      <section className="fl-section fl-section--card">
+      {/* ---------- FORMAT MOBILE ---------- */}
+      <section id="mobile" className="fl-section fl-section--card">
         <div className="fl-container">
           <div className="fl-section-head">
             <span className="fl-eyebrow">02</span>
+            <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.mobile.title}</h2>
+            <p className="fl-section-sub">{c.mobile.sub}</p>
+          </div>
+          <div className="fl-phones">
+            {c.mobile.shots.map((s) => (
+              <figure key={s.img} className="fl-phone-item">
+                <div className="fl-phone">
+                  <span className="fl-phone-notch" aria-hidden="true" />
+                  <img
+                    className="fl-phone-shot"
+                    src={s.img}
+                    alt={s.label}
+                    onLoad={() => ScrollTrigger.refresh()}
+                  />
+                </div>
+                <figcaption className="fl-phone-caption">{s.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- COMMENT ÇA FONCTIONNE ---------- */}
+      <section className="fl-section">
+        <div className="fl-container">
+          <div className="fl-section-head">
+            <span className="fl-eyebrow">03</span>
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.how.title}</h2>
           </div>
           <div className="fl-flow">
@@ -245,10 +273,10 @@ export default function FleetLivePage() {
       </section>
 
       {/* ---------- ROI ---------- */}
-      <section className="fl-section">
+      <section className="fl-section fl-section--card">
         <div className="fl-container">
           <div className="fl-section-head">
-            <span className="fl-eyebrow">03</span>
+            <span className="fl-eyebrow">04</span>
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.roi.title}</h2>
             <p className="fl-section-sub">{c.roi.sub}</p>
           </div>
@@ -274,10 +302,10 @@ export default function FleetLivePage() {
       </section>
 
       {/* ---------- DÉPLOIEMENT + CTA + FORM ---------- */}
-      <section id="contact" className="fl-section fl-section--card">
+      <section id="contact" className="fl-section">
         <div className="fl-container">
           <div className="fl-section-head">
-            <span className="fl-eyebrow">04</span>
+            <span className="fl-eyebrow">05</span>
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.deploy.title}</h2>
           </div>
 

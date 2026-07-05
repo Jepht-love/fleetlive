@@ -30,6 +30,11 @@ export interface Content {
     sub: string
     tabs: TabItem[]
   }
+  mobile: {
+    title: string
+    sub: string
+    shots: { img: string; label: string; caption: string }[]
+  }
   how: {
     title: string
     steps: { label: string; desc: string }[]
@@ -87,6 +92,14 @@ const fr: Content = {
       { id: 'inspection', label: 'État des lieux', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
       { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Prévisionnel de trésorerie : échéances non réglées par mois, loyers véhicules et factures à régler.' },
       { id: 'profitability', label: 'Rentabilité', img: '/rentabilite.png', desc: 'Analyse de rentabilité : dépenses par catégorie et par véhicule, recettes comparées aux dépenses.' },
+    ],
+  },
+  mobile: {
+    title: 'Aussi dans votre poche.',
+    sub: 'La gestion de flotte disponible en format mobile — comptabilité et rentabilité consultables partout.',
+    shots: [
+      { img: '/mobile-compta.png', label: 'Comptabilité', caption: 'Échéances à venir : mensualités par véhicule, montant payé, reste à régler et prochaine échéance.' },
+      { img: '/mobile-rentabilite.png', label: 'Rentabilité', caption: 'Rentabilité par véhicule : chiffre d’affaires, coûts, marge, taux d’utilisation et taux d’immobilisation.' },
     ],
   },
   how: {
@@ -164,6 +177,14 @@ const en: Content = {
       { id: 'inspection', label: 'Inspections', img: '/etat-des-lieux.png', desc: 'Multi-angle inspection diagram to pinpoint every damage — top, front/rear and side views.' },
       { id: 'accounting', label: 'Accounting', img: '/comptabilite.png', desc: 'Cash-flow forecast: unpaid installments per month, vehicle leases and invoices due.' },
       { id: 'profitability', label: 'Profitability', img: '/rentabilite.png', desc: 'Profitability analysis: expenses by category and by vehicle, revenue vs expenses.' },
+    ],
+  },
+  mobile: {
+    title: 'In your pocket, too.',
+    sub: 'Fleet management in a mobile format — accounting and profitability available anywhere.',
+    shots: [
+      { img: '/mobile-compta.png', label: 'Accounting', caption: 'Upcoming installments: monthly payments per vehicle, amount paid, balance due and next due date.' },
+      { img: '/mobile-rentabilite.png', label: 'Profitability', caption: 'Profitability per vehicle: revenue, costs, margin, utilization rate and downtime rate.' },
     ],
   },
   how: {
