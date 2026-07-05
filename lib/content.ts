@@ -83,9 +83,10 @@ const fr: Content = {
     tabs: [
       { id: 'dashboard', label: 'Tableau de bord', img: '/dashboard.png', desc: 'Vue d’ensemble de la flotte : véhicules disponibles, en location, tâches du jour, alertes retard.' },
       { id: 'reservations', label: 'Réservations', img: '/reservations.png', desc: 'Liste des réservations avec statuts en temps réel — en cours, en retard, terminée.' },
-      { id: 'fleet', label: 'Flotte', img: '/flotte.png', desc: 'Fiche détaillée de chaque véhicule : tarification, kilométrage, dommages, performance commerciale.' },
-      { id: 'inspection', label: 'État des lieux', img: '/etat-des-lieux.png', desc: 'Inspection multi-zones sur schéma interactif — comparaison départ / retour avec photos.' },
-      { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Recettes, dépenses, résultat net, clôtures, export CSV/PDF/Excel.' },
+      { id: 'fleet', label: 'Flotte', img: '/flotte.png', desc: 'Parc en temps réel : disponibilité, tarif jour, caution, kilométrage et état (dégradé) de chaque véhicule.' },
+      { id: 'inspection', label: 'État des lieux', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
+      { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Prévisionnel de trésorerie : échéances non réglées par mois, loyers véhicules et factures à régler.' },
+      { id: 'profitability', label: 'Rentabilité', img: '/rentabilite.png', desc: 'Analyse de rentabilité : dépenses par catégorie et par véhicule, recettes comparées aux dépenses.' },
     ],
   },
   how: {
@@ -159,9 +160,10 @@ const en: Content = {
     tabs: [
       { id: 'dashboard', label: 'Dashboard', img: '/dashboard.png', desc: 'Fleet overview: available vehicles, on rental, daily tasks, late return alerts.' },
       { id: 'reservations', label: 'Reservations', img: '/reservations.png', desc: 'Reservation list with real-time status — active, overdue, completed.' },
-      { id: 'fleet', label: 'Fleet', img: '/flotte.png', desc: 'Detailed vehicle card: pricing, mileage, damage records, commercial performance.' },
-      { id: 'inspection', label: 'Inspections', img: '/etat-des-lieux.png', desc: 'Multi-zone inspection on interactive diagram — departure/return comparison with photos.' },
-      { id: 'accounting', label: 'Accounting', img: '/comptabilite.png', desc: 'Revenue, expenses, net result, closings, CSV/PDF/Excel export.' },
+      { id: 'fleet', label: 'Fleet', img: '/flotte.png', desc: 'Real-time fleet: availability, daily rate, deposit, mileage and condition (damaged) per vehicle.' },
+      { id: 'inspection', label: 'Inspections', img: '/etat-des-lieux.png', desc: 'Multi-angle inspection diagram to pinpoint every damage — top, front/rear and side views.' },
+      { id: 'accounting', label: 'Accounting', img: '/comptabilite.png', desc: 'Cash-flow forecast: unpaid installments per month, vehicle leases and invoices due.' },
+      { id: 'profitability', label: 'Profitability', img: '/rentabilite.png', desc: 'Profitability analysis: expenses by category and by vehicle, revenue vs expenses.' },
     ],
   },
   how: {
