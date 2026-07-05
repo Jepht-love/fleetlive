@@ -45,6 +45,12 @@ export interface Content {
     metrics: string[]
     tiers: { label: string; amount: string }[]
   }
+  audience: {
+    title: string
+    sub: string
+    roles: { role: string; desc: string }[]
+    chain: string
+  }
   deploy: {
     title: string
     phases: { phase: string; desc: string }[]
@@ -89,6 +95,7 @@ const fr: Content = {
       { id: 'dashboard', label: 'Tableau de bord', img: '/dashboard.png', desc: 'Vue d’ensemble de la flotte : véhicules disponibles, en location, tâches du jour, alertes retard.' },
       { id: 'reservations', label: 'Réservations', img: '/reservations.png', desc: 'Liste des réservations avec statuts en temps réel — en cours, en retard, terminée.' },
       { id: 'fleet', label: 'Flotte', img: '/flotte.png', desc: 'Parc en temps réel : disponibilité, tarif jour, caution, kilométrage et état (dégradé) de chaque véhicule.' },
+      { id: 'vehicle', label: 'Suivi & entretien', img: '/suivi-entretien.png', desc: 'Fiche véhicule complète : état mécanique et dégradations localisées, kilométrage depuis entretien, immobilisations et statut du véhicule.' },
       { id: 'inspection', label: 'État des lieux', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
       { id: 'accounting', label: 'Comptabilité', img: '/comptabilite.png', desc: 'Prévisionnel de trésorerie : échéances non réglées par mois, loyers véhicules et factures à régler.' },
       { id: 'profitability', label: 'Rentabilité', img: '/rentabilite.png', desc: 'Analyse de rentabilité : dépenses par catégorie et par véhicule, recettes comparées aux dépenses.' },
@@ -125,6 +132,19 @@ const fr: Content = {
       { label: 'Flotte moyenne (1 000 véh.)', amount: '200K€ – 600K€/an' },
       { label: 'Grande flotte (5 000+ véh.)', amount: '500K€ – 1M€+/an' },
     ],
+  },
+  audience: {
+    title: 'Pensé pour vos décideurs flotte.',
+    sub: 'De la douleur terrain à la validation budgétaire et technique — chaque interlocuteur y trouve sa réponse.',
+    roles: [
+      { role: 'Responsable Flotte', desc: 'État du parc en temps réel et inspections automatisées — moins de terrain, plus de contrôle.' },
+      { role: 'Directeur des Opérations', desc: 'KPI d’exploitation centralisés : disponibilité, immobilisations, coûts par véhicule.' },
+      { role: 'Directeur Maintenance', desc: 'Détection précoce des dégradations et suivi de l’entretien, véhicule par véhicule.' },
+      { role: 'Directeur Logistique', desc: 'Visibilité continue sur la disponibilité et l’affectation des véhicules.' },
+      { role: 'Directeur Transformation Digitale', desc: 'Inspection et suivi de flotte digitalisés — fin des process papier.' },
+      { role: 'DSI', desc: 'Plateforme unique, intégrable au CRM, avec traçabilité complète des données.' },
+    ],
+    chain: 'Responsable Flotte identifie la douleur → Directeur des Opérations valide l’intérêt business → DAF valide le budget → DSI valide l’intégration.',
   },
   deploy: {
     title: 'Déploiement en 3 phases.',
@@ -174,6 +194,7 @@ const en: Content = {
       { id: 'dashboard', label: 'Dashboard', img: '/dashboard.png', desc: 'Fleet overview: available vehicles, on rental, daily tasks, late return alerts.' },
       { id: 'reservations', label: 'Reservations', img: '/reservations.png', desc: 'Reservation list with real-time status — active, overdue, completed.' },
       { id: 'fleet', label: 'Fleet', img: '/flotte.png', desc: 'Real-time fleet: availability, daily rate, deposit, mileage and condition (damaged) per vehicle.' },
+      { id: 'vehicle', label: 'Tracking & maintenance', img: '/suivi-entretien.png', desc: 'Full vehicle file: mechanical condition and located damage, mileage since last service, downtime and vehicle status.' },
       { id: 'inspection', label: 'Inspections', img: '/etat-des-lieux.png', desc: 'Multi-angle inspection diagram to pinpoint every damage — top, front/rear and side views.' },
       { id: 'accounting', label: 'Accounting', img: '/comptabilite.png', desc: 'Cash-flow forecast: unpaid installments per month, vehicle leases and invoices due.' },
       { id: 'profitability', label: 'Profitability', img: '/rentabilite.png', desc: 'Profitability analysis: expenses by category and by vehicle, revenue vs expenses.' },
@@ -210,6 +231,19 @@ const en: Content = {
       { label: 'Mid fleet (1,000 veh.)', amount: '€200K – €600K/yr' },
       { label: 'Large fleet (5,000+ veh.)', amount: '€500K – €1M+/yr' },
     ],
+  },
+  audience: {
+    title: 'Built for your fleet stakeholders.',
+    sub: 'From field pain to budget and technical sign-off — every stakeholder finds their answer.',
+    roles: [
+      { role: 'Fleet Manager', desc: 'Real-time fleet status and automated inspections — less field work, more control.' },
+      { role: 'Operations Director', desc: 'Centralized operational KPIs: availability, downtime, cost per vehicle.' },
+      { role: 'Maintenance Director', desc: 'Early damage detection and maintenance tracking, vehicle by vehicle.' },
+      { role: 'Logistics Director', desc: 'Continuous visibility on vehicle availability and allocation.' },
+      { role: 'Chief Digital Officer', desc: 'Digitalized inspection and fleet tracking — no more paper processes.' },
+      { role: 'CIO', desc: 'A single platform, CRM-integrable, with full data traceability.' },
+    ],
+    chain: 'Fleet Manager spots the pain → Operations Director validates the business case → CFO signs off the budget → CIO validates integration.',
   },
   deploy: {
     title: 'Deployment in 3 phases.',

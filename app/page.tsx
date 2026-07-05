@@ -79,6 +79,7 @@ export default function FleetLivePage() {
         reveal('.fl-flow .fl-step', '.fl-flow')
         reveal('.fl-roi-metric', '.fl-roi-metrics')
         reveal('.fl-grid-3 .fl-tier', '.fl-grid-3')
+        reveal('.fl-audience-grid .fl-role', '.fl-audience-grid')
         reveal('.fl-phases .fl-phase', '.fl-phases')
 
         // Frame logiciel — entrée + balayage « scan » (signature vision artificielle)
@@ -301,11 +302,31 @@ export default function FleetLivePage() {
         </div>
       </section>
 
-      {/* ---------- DÉPLOIEMENT + CTA + FORM ---------- */}
-      <section id="contact" className="fl-section">
+      {/* ---------- DÉCIDEURS / AUDIENCE ---------- */}
+      <section className="fl-section">
         <div className="fl-container">
           <div className="fl-section-head">
             <span className="fl-eyebrow">05</span>
+            <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.audience.title}</h2>
+            <p className="fl-section-sub">{c.audience.sub}</p>
+          </div>
+          <div className="fl-audience-grid">
+            {c.audience.roles.map((r) => (
+              <div key={r.role} className="fl-role">
+                <h3>{r.role}</h3>
+                <p>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="fl-chain">{c.audience.chain}</div>
+        </div>
+      </section>
+
+      {/* ---------- DÉPLOIEMENT + CTA + FORM ---------- */}
+      <section id="contact" className="fl-section fl-section--card">
+        <div className="fl-container">
+          <div className="fl-section-head">
+            <span className="fl-eyebrow">06</span>
             <h2 className="fl-h2" style={{ marginTop: 12 }}>{c.deploy.title}</h2>
           </div>
 

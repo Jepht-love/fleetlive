@@ -442,6 +442,77 @@ a {
   }
 }
 
+/* Filtre bleu clair — fond les captures (UI claire) dans l'ambiance navy.
+   Superposé au screenshot, sous le notch (z-index 2) et le balayage scan (z-index 3). */
+.fl-browser::after,
+.fl-phone::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(20, 85, 254, 0.07), rgba(20, 85, 254, 0.2));
+}
+.fl-browser::after {
+  left: 0;
+  right: 0;
+  top: 40px; /* sous la barre du navigateur */
+  bottom: 0;
+}
+.fl-phone::after {
+  inset: 11px; /* aligné sur le padding du mockup */
+  border-radius: 32px;
+}
+
+/* ============================================================
+   AUDIENCE — décideurs flotte
+   ============================================================ */
+.fl-audience-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.fl-role {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color 0.2s ease;
+}
+.fl-role:hover {
+  border-color: var(--border-strong);
+}
+.fl-role h3 {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.fl-role p {
+  color: var(--muted);
+  font-size: 14.5px;
+}
+.fl-chain {
+  margin-top: 32px;
+  padding: 18px 24px;
+  border: 1px solid rgba(20, 85, 254, 0.28);
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--text);
+  font-size: 14.5px;
+  line-height: 1.7;
+  text-align: center;
+}
+@media (max-width: 860px) {
+  .fl-audience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .fl-audience-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ============================================================
    COMMENT ÇA FONCTIONNE — flow 5 étapes
    ============================================================ */
