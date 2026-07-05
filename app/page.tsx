@@ -18,13 +18,14 @@ import {
   ArrowDown,
   Check,
 } from 'lucide-react'
+import Cal, { getCalApi } from '@calcom/embed-react'
 import { getContent, type Lang } from '@/lib/content'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 const CONTACT_EMAIL = 'projobs01@gmail.com'
-// Clé d'accès publique Web3Forms (safe côté client) — obtenue sur web3forms.com
-const WEB3FORMS_ACCESS_KEY = '17641208-3f89-4213-b5a7-74ec36d4f67e'
+// Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
+const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
 const STEP_ICONS = [Car, Camera, Cpu, FileText, Database]
 
@@ -346,7 +347,7 @@ export default function FleetLivePage() {
             <h3>{c.deploy.ctaTitle}</h3>
           </div>
 
-          <ContactForm c={c} />
+          <BookingCalendar c={c} />
         </div>
       </section>
 
@@ -364,82 +365,40 @@ export default function FleetLivePage() {
   )
 }
 
-/* ---------- Formulaire (mailto, aucun backend) ---------- */
-function ContactForm({ c }: { c: ReturnType<typeof getContent> }) {
-  const f = c.deploy.form
-  const [form, setForm] = useState({ firstName: '', email: '', fleet: '', message: '' })
-
-  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle')
-
-  const update = (k: keyof typeof form) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-      setForm((s) => ({ ...s, [k]: e.target.value }))
-
-  // Envoi direct via Web3Forms (sans backend) : on reste sur la page.
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `FleetLive — ${f.submit} (${form.firstName || 'Contact'})`,
-          from_name: form.firstName || 'FleetLive',
-          email: form.email,
-          [f.firstName]: form.firstName,
-          [f.fleetSize]: form.fleet,
-          [f.message]: form.message,
-        }),
+/* ---------- Agenda de réservation (Cal.com, aucun backend) ---------- */
+function BookingCalendar({ c }: { c: ReturnType<typeof getContent> }) {
+  useEffect(() => {
+    let active = true
+    ;(async () => {
+      const cal = await getCalApi()
+      if (!active) return
+      cal('ui', {
+        theme: 'dark',
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+        cssVarsPerTheme: {
+          light: { 'cal-brand': '#1455fe' },
+          dark: { 'cal-brand': '#1455fe' },
+        },
       })
-      const data = await res.json()
-      if (data.success) {
-        setStatus('ok')
-        setForm({ firstName: '', email: '', fleet: '', message: '' })
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
+    })()
+    return () => {
+      active = false
     }
-  }
-
-  if (status === 'ok') {
-    return (
-      <div className="fl-form-status fl-form-status--ok" role="status">
-        {f.success}
-      </div>
-    )
-  }
+  }, [])
 
   return (
-    <form className="fl-form" onSubmit={handleSubmit}>
-      <div className="fl-field">
-        <label htmlFor="fl-firstname">{f.firstName}</label>
-        <input id="fl-firstname" className="fl-input" type="text" value={form.firstName} onChange={update('firstName')} required />
-      </div>
-      <div className="fl-field">
-        <label htmlFor="fl-email">{f.email}</label>
-        <input id="fl-email" className="fl-input" type="email" value={form.email} onChange={update('email')} required />
-      </div>
-      <div className="fl-field">
-        <label htmlFor="fl-fleet">{f.fleetSize}</label>
-        <select id="fl-fleet" className="fl-select" value={form.fleet} onChange={update('fleet')} required>
-          <option value="" disabled>—</option>
-          {f.fleetOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-        </select>
-      </div>
-      <div className="fl-field">
-        <label htmlFor="fl-message">{f.message}</label>
-        <textarea id="fl-message" className="fl-textarea" value={form.message} onChange={update('message')} />
-      </div>
-      <button type="submit" className="fl-btn fl-btn--primary fl-form-submit" disabled={status === 'sending'}>
-        {status === 'sending' ? f.sending : f.submit}
-      </button>
-      {status === 'error' && (
-        <p className="fl-form-status fl-form-status--error" role="alert">{f.error}</p>
-      )}
-    </form>
+    <div className="fl-booking">
+      <Cal
+        calLink={CAL_LINK}
+        className="fl-booking-embed"
+        style={{ width: '100%', height: '100%', overflow: 'scroll' }}
+        config={{ layout: 'month_view' }}
+      />
+      <p className="fl-booking-fallback">
+        {c.deploy.bookingFallback}{' '}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </div>
   )
 }

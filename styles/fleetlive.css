@@ -731,6 +731,41 @@ a {
   width: 100%;
 }
 
+/* ---------- Agenda de réservation (Cal.com) ---------- */
+.fl-booking {
+  margin-top: 28px;
+  width: 100%;
+}
+.fl-booking-embed {
+  width: 100%;
+  min-height: 640px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.fl-booking-embed iframe {
+  border-radius: var(--radius);
+}
+.fl-booking-fallback {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14.5px;
+}
+.fl-booking-fallback a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.fl-booking-fallback a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 640px) {
+  .fl-booking-embed {
+    min-height: 560px;
+  }
+}
+
 /* ============================================================
    FOOTER
    ============================================================ */

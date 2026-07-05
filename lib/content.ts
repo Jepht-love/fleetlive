@@ -56,6 +56,7 @@ export interface Content {
     phases: { phase: string; desc: string }[]
     ctaTitle: string
     ctaButton: string
+    bookingFallback: string
     form: {
       firstName: string
       email: string
@@ -158,6 +159,7 @@ const fr: Content = {
     ],
     ctaTitle: 'Prêt à automatiser votre inspection ?',
     ctaButton: 'Demander une démonstration',
+    bookingFallback: 'Aucun créneau ne convient ? Écrivez-nous à',
     form: {
       firstName: 'Prénom',
       email: 'Email professionnel',
@@ -260,6 +262,7 @@ const en: Content = {
     ],
     ctaTitle: 'Ready to automate your inspections?',
     ctaButton: 'Request a demonstration',
+    bookingFallback: 'No slot works for you? Email us at',
     form: {
       firstName: 'First name',
       email: 'Professional email',
