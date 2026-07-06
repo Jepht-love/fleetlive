@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'FleetLive — Gestion de flotte & inspection automatisée',
   description:
-    'FleetLive — logiciel de gestion de flotte et d’inspection automatisée. Réduction des coûts opérationnels et des litiges via vision artificielle.',
+    'FleetLive — logiciel de gestion de flotte et d’inspection automatisée. Réduction des coûts opérationnels et des litiges grâce à l’intelligence artificielle.',
   applicationName: 'FleetLive',
 }
 

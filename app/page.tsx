@@ -17,6 +17,9 @@ import {
   MapPin,
   ArrowDown,
   Check,
+  Gauge,
+  Route,
+  Wrench,
 } from 'lucide-react'
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { getContent, type Lang } from '@/lib/content'
@@ -27,6 +30,8 @@ const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 const CAL_LINK = 'jepht-akpadji-j457vn/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
+// KPI financiers pilotant le coût réel par véhicule (section ROI)
+const ROI_KPI_ICONS = [Gauge, Route, Wrench]
 // Moteur d'inspection (hub radial géométrique) : Inspection IA au cœur,
 // entrées (Véhicule, Photos) à gauche, sorties (Rapport, CRM) à droite.
 // L'étape IA (index 2) porte la confluence Départ/Retour (signature propre).
@@ -194,9 +199,8 @@ export default function FleetLivePage() {
       {/* ---------- NAVBAR ---------- */}
       <nav className="fl-nav">
         <div className="fl-container fl-nav-inner">
-          <a className="fl-logo" href="#top">
-            <span className="fl-logo-mark" />
-            FleetLive
+          <a className="fl-logo" href="#top" aria-label="FleetLive">
+            <img className="fl-logo-img" src="/fleetlive-logo.png" alt="FleetLive" />
           </a>
           <div className="fl-nav-right">
             <div className="fl-lang" role="group" aria-label="Language">
@@ -436,6 +440,19 @@ export default function FleetLivePage() {
             <p className="fl-section-sub">{c.roi.sub}</p>
           </div>
 
+          <div className="fl-roi-kpis">
+            {c.roi.kpis.map((k, i) => {
+              const Icon = ROI_KPI_ICONS[i % ROI_KPI_ICONS.length]
+              return (
+                <div key={k.label} className="fl-roi-kpi">
+                  <div className="fl-roi-kpi-icon"><Icon size={22} /></div>
+                  <h4 className="fl-roi-kpi-label">{k.label}</h4>
+                  <p className="fl-roi-kpi-hint">{k.hint}</p>
+                </div>
+              )
+            })}
+          </div>
+
           <div className="fl-roi-metrics">
             {c.roi.metrics.map((m) => (
               <div key={m} className="fl-roi-metric">
@@ -503,8 +520,7 @@ export default function FleetLivePage() {
       <footer className="fl-footer">
         <div className="fl-container fl-footer-inner">
           <div className="fl-footer-brand">
-            <span className="fl-logo-mark" />
-            FleetLive
+            <img className="fl-logo-img fl-logo-img--footer" src="/fleetlive-logo.png" alt="FleetLive" />
           </div>
           <div className="fl-footer-copy">{c.footer}</div>
         </div>

@@ -56,6 +56,7 @@ export interface Content {
   roi: {
     title: string
     sub: string
+    kpis: { label: string; hint: string }[]
     metrics: string[]
   }
   audience: {
@@ -92,7 +93,7 @@ const fr: Content = {
     eyebrow: 'GESTION DE FLOTTE & INSPECTION AUTOMATISÉE',
     h1a: 'Chaque inspection manuelle',
     h1b: 'génère un coût invisible récurrent.',
-    sub: 'Réduction des coûts opérationnels et des litiges via vision artificielle.',
+    sub: 'Réduction des coûts opérationnels et des litiges grâce à l’intelligence artificielle.',
     ctaPrimary: 'Demander une démonstration',
     ctaSecondary: 'Voir le logiciel',
     tags: ['Inspection automatisée', 'Traçabilité complète', 'Intégration CRM'],
@@ -110,8 +111,7 @@ const fr: Content = {
     title: 'Le logiciel.',
     sub: 'Tout ce dont votre flotte a besoin, dans un seul outil.',
     tabs: [
-      { id: 'dashboard', label: 'Tableau de bord', img: '/dashboard.png', desc: 'Vue d’ensemble de la flotte : véhicules disponibles, en location, tâches du jour, alertes retard.' },
-      { id: 'reservations', label: 'Réservations', img: '/reservations.png', desc: 'Liste des réservations avec statuts en temps réel — en cours, en retard, terminée.' },
+      { id: 'dashboard', label: 'Tableau de bord', img: '/dashboard.png', desc: 'Vue d’ensemble de la flotte : véhicules disponibles, en service, tâches du jour, alertes retard.' },
       { id: 'fleet', label: 'Flotte', img: '/flotte.png', desc: 'Parc en temps réel : disponibilité, tarif jour, caution, kilométrage et état (dégradé) de chaque véhicule.' },
       { id: 'vehicle', label: 'Suivi & entretien', img: '/suivi-entretien.png', desc: 'Fiche véhicule complète : état mécanique et dégradations localisées, kilométrage depuis entretien, immobilisations et statut du véhicule.' },
       { id: 'inspection', label: 'Inspection', img: '/etat-des-lieux.png', desc: 'Schéma d’inspection multi-angles pour localiser chaque dommage — vues de dessus, de face, de dos et de profil.' },
@@ -162,7 +162,12 @@ const fr: Content = {
   },
   roi: {
     title: 'Retour sur investissement.',
-    sub: 'Pour une flotte de 50 à 100 véhicules, les gains sont immédiats.',
+    sub: 'Chaque euro dépensé par véhicule devient visible et pilotable. Trois indicateurs financiers, suivis en continu, révèlent où se cache le coût.',
+    kpis: [
+      { label: 'Taux d’utilisation', hint: 'jours en service ÷ jours disponibles — repérez la sur-flotte et les véhicules sous-exploités.' },
+      { label: 'Usage au kilomètre', hint: 'coût réel rapporté aux km parcourus — arbitrez le renouvellement sur des chiffres.' },
+      { label: 'Taux de réparation', hint: 'immobilisations et pannes suivies — anticipez la maintenance, réduisez l’indisponibilité.' },
+    ],
     metrics: [
       '~14 minutes d’inspection économisées par véhicule et par passage',
       'Preuve visuelle = litiges réduits significativement, coûts de dommages documentés et récupérables',
@@ -185,9 +190,9 @@ const fr: Content = {
   deploy: {
     title: 'Déploiement en 3 phases.',
     phases: [
-      { phase: 'Pilote 2–6 semaines', desc: 'Installation sur 1 site · 50 à 200 véhicules testés · Comparaison manuel vs logiciel' },
-      { phase: 'Validation KPIs', desc: 'Temps d’inspection · Taux d’erreur détecté · Litiges évités · Satisfaction opérationnelle' },
-      { phase: 'Scale multi-sites', desc: 'Déploiement sur plusieurs dépôts · Intégration CRM globale · Centralisation des données flotte' },
+      { phase: 'Pilote — 2 à 6 semaines', desc: 'Mise en service sur un site pilote, 50 à 200 véhicules. Vos équipes utilisent la plateforme en conditions réelles et comparent, véhicule par véhicule, le suivi manuel actuel au suivi logiciel. Prise en main accompagnée, sans bouleverser vos process.' },
+      { phase: 'Validation des KPI', desc: 'On mesure les gains concrets sur le pilote : temps d’inspection par véhicule, taux d’erreur détecté, litiges évités, taux d’utilisation et d’immobilisation, coût au kilomètre, satisfaction des équipes terrain. Des chiffres factuels qui servent de base à la décision de généralisation.' },
+      { phase: 'Déploiement multi-sites', desc: 'Généralisation à l’ensemble des dépôts, intégration au CRM et aux outils existants, centralisation des données de toute la flotte et formation des équipes. Un pilotage unique, du terrain à la direction.' },
     ],
     pricing: {
       label: 'Tarification',
@@ -218,7 +223,7 @@ const en: Content = {
     eyebrow: 'FLEET MANAGEMENT & AUTOMATED INSPECTION',
     h1a: 'Every manual inspection',
     h1b: 'generates a recurring hidden cost.',
-    sub: 'Reducing operational costs and disputes through computer vision.',
+    sub: 'Reducing operational costs and disputes through artificial intelligence.',
     ctaPrimary: 'Request a demonstration',
     ctaSecondary: 'See the software',
     tags: ['Automated inspection', 'Full traceability', 'CRM integration'],
@@ -236,8 +241,7 @@ const en: Content = {
     title: 'The software.',
     sub: 'Everything your fleet needs, in one platform.',
     tabs: [
-      { id: 'dashboard', label: 'Dashboard', img: '/dashboard.png', desc: 'Fleet overview: available vehicles, on rental, daily tasks, late return alerts.' },
-      { id: 'reservations', label: 'Reservations', img: '/reservations.png', desc: 'Reservation list with real-time status — active, overdue, completed.' },
+      { id: 'dashboard', label: 'Dashboard', img: '/dashboard.png', desc: 'Fleet overview: available vehicles, in service, daily tasks, late return alerts.' },
       { id: 'fleet', label: 'Fleet', img: '/flotte.png', desc: 'Real-time fleet: availability, daily rate, deposit, mileage and condition (damaged) per vehicle.' },
       { id: 'vehicle', label: 'Tracking & maintenance', img: '/suivi-entretien.png', desc: 'Full vehicle file: mechanical condition and located damage, mileage since last service, downtime and vehicle status.' },
       { id: 'inspection', label: 'Inspections', img: '/etat-des-lieux.png', desc: 'Multi-angle inspection diagram to pinpoint every damage — top, front/rear and side views.' },
@@ -288,7 +292,12 @@ const en: Content = {
   },
   roi: {
     title: 'Return on investment.',
-    sub: 'For a fleet of 50 to 100 vehicles, gains are immediate.',
+    sub: 'Every euro spent per vehicle becomes visible and manageable. Three financial indicators, tracked continuously, reveal where the cost hides.',
+    kpis: [
+      { label: 'Utilization rate', hint: 'days in service ÷ days available — spot over-sizing and under-used vehicles.' },
+      { label: 'Cost per kilometer', hint: 'real cost against distance driven — time renewals on hard numbers.' },
+      { label: 'Repair rate', hint: 'downtime and breakdowns tracked — anticipate maintenance, cut unavailability.' },
+    ],
     metrics: [
       '~14 minutes of inspection time saved per vehicle per pass',
       'Visual proof = significantly reduced disputes, damage costs documented and recoverable',
@@ -311,9 +320,9 @@ const en: Content = {
   deploy: {
     title: 'Deployment in 3 phases.',
     phases: [
-      { phase: 'Pilot 2–6 weeks', desc: '1-site installation · 50 to 200 vehicles tested · Manual vs software comparison' },
-      { phase: 'KPI validation', desc: 'Inspection time · Error rate detected · Disputes avoided · Operational satisfaction' },
-      { phase: 'Multi-site scale', desc: 'Multi-depot deployment · Global CRM integration · Centralized fleet data' },
+      { phase: 'Pilot — 2 to 6 weeks', desc: 'Go-live on a pilot site, 50 to 200 vehicles. Your teams use the platform in real conditions and compare, vehicle by vehicle, today’s manual tracking to software tracking. Guided onboarding, without disrupting your processes.' },
+      { phase: 'KPI validation', desc: 'We measure the concrete gains on the pilot: inspection time per vehicle, error rate detected, disputes avoided, utilization and downtime rates, cost per kilometer, field-team satisfaction. Factual figures that ground the decision to scale.' },
+      { phase: 'Multi-site scale', desc: 'Roll-out across all depots, integration with your CRM and existing tools, centralized data for the whole fleet, and team training. A single control point, from the field to management.' },
     ],
     pricing: {
       label: 'Pricing',
