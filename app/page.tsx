@@ -26,9 +26,12 @@ import { getContent, type Lang } from '@/lib/content'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-const CONTACT_EMAIL = 'akpadjijepht@gmail.com'
+const CONTACT_EMAIL = 'lmsdrive45@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
-const CAL_LINK = 'jepht-akpadji-j457vn/30min'
+// Page hébergée sur l'instance Cal.com région EU (cal.eu) → on précise l'origine + l'embed.js.
+const CAL_ORIGIN = 'https://cal.eu'
+const CAL_EMBED_JS = 'https://cal.eu/embed/embed.js'
+const CAL_LINK = 'lmsdrive/30min'
 const PROBLEM_ICONS = [Clock, AlertTriangle, MessageCircle, EyeOff]
 // KPI financiers pilotant le coût réel par véhicule (section ROI)
 const ROI_KPI_ICONS = [Gauge, Route, Wrench]
@@ -544,7 +547,7 @@ function BookingCalendar({ c }: { c: ReturnType<typeof getContent> }) {
   useEffect(() => {
     let active = true
     ;(async () => {
-      const cal = await getCalApi()
+      const cal = await getCalApi({ embedJsUrl: CAL_EMBED_JS })
       if (!active) return
       cal('ui', {
         theme: 'dark',
@@ -565,6 +568,8 @@ function BookingCalendar({ c }: { c: ReturnType<typeof getContent> }) {
     <div className="fl-booking">
       <Cal
         calLink={CAL_LINK}
+        calOrigin={CAL_ORIGIN}
+        embedJsUrl={CAL_EMBED_JS}
         className="fl-booking-embed"
         style={{ width: '100%', height: '100%', overflow: 'scroll' }}
         config={{ layout: 'month_view' }}
