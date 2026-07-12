@@ -1164,7 +1164,7 @@ a {
    RESPONSIVE
    ============================================================ */
 /* Hub : radial en desktop → pile verticale en mobile (une seule structure) */
-@media (max-width: 960px) {
+@media (max-width: 720px) and (orientation: portrait) {
   .fl-hub-web,
   .fl-hub::before {
     display: none;
@@ -1227,6 +1227,45 @@ a {
   }
   .fl-flux-compare {
     padding: 14px 15px;
+  }
+}
+
+/* Paysage téléphone : on garde le radial « X » mais compacté pour tenir
+   dans une hauteur d'écran réduite, sans chevauchement avec la carte. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .fl-hub {
+    margin-top: 20px;
+  }
+  .fl-hub-stage {
+    max-width: 420px;
+  }
+  .fl-hub-core {
+    width: 122px;
+    height: 122px;
+  }
+  .fl-hub-core-label {
+    font-size: 12px;
+  }
+  .fl-hub-node {
+    width: 128px;
+  }
+  .fl-hub-glyph {
+    width: 62px;
+    height: 62px;
+  }
+  .fl-hub-node-label {
+    margin-top: 9px;
+    font-size: 13px;
+  }
+  .fl-hub-node-desc {
+    margin-top: 3px;
+    font-size: 11.5px;
+    line-height: 1.42;
+    max-width: 128px;
+  }
+  /* dégagement garanti sous les nœuds bas (qui débordent du carré) */
+  .fl-hub-compare {
+    margin-top: 52px;
   }
 }
 
