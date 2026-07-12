@@ -386,6 +386,13 @@ export default function FleetLivePage() {
                 <circle className="fl-hub-pulse fl-hub-pulse--out-2" r="1.4" cx="50" cy="50" />
               </svg>
 
+              {/* Flux vertical (portrait uniquement) : boules dorées haut → bas */}
+              <span className="fl-hub-vflux" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+
               {c.how.steps.map((s, i) => {
                 const Icon = FLUX_ICONS[i]
                 if (i === AI_STEP_INDEX) {
