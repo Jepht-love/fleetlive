@@ -102,6 +102,9 @@ export default function FleetLivePage() {
           duration: 0.6,
           ease: 'back.out(1.5)',
           stagger: 0.12,
+          // retire le transform inline en fin d'anim pour laisser la règle CSS
+          // responsive gérer le positionnement (translate en radial, none en portrait empilé)
+          clearProps: 'transform',
           scrollTrigger: { trigger: '.fl-hub', start: 'top 78%' },
         })
         // Cadres géométriques du cœur — rotation lente contra-rotative (motif carré)
