@@ -146,7 +146,7 @@ const fr: Content = {
   how: {
     title: 'Comment ça fonctionne.',
     steps: [
-      { label: 'Véhicule', desc: 'Retour au parc.' },
+      { label: 'Véhicule', desc: 'Départ / retour.' },
       { label: 'Photos', desc: 'Prises via le logiciel au retour du véhicule.' },
       { label: 'Inspection IA', desc: 'Comparaison automatique départ / retour — chaque dommage est détecté, localisé et suivi.' },
       { label: 'Rapport', desc: 'Écarts constatés, export PDF instantané.' },
@@ -276,7 +276,7 @@ const en: Content = {
   how: {
     title: 'How it works.',
     steps: [
-      { label: 'Vehicle', desc: 'Returns to the depot.' },
+      { label: 'Vehicle', desc: 'Departure / return.' },
       { label: 'Photos', desc: 'Taken via the software upon vehicle return.' },
       { label: 'AI inspection', desc: 'Automatic departure/return comparison — every damage is detected, located and tracked.' },
       { label: 'Report', desc: 'Discrepancies flagged, instant PDF export.' },
