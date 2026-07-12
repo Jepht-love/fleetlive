@@ -1164,7 +1164,7 @@ a {
    RESPONSIVE
    ============================================================ */
 /* Hub : radial en desktop → pile verticale en mobile (une seule structure) */
-@media (max-width: 720px) {
+@media (max-width: 960px) {
   .fl-hub-web,
   .fl-hub::before {
     display: none;
