@@ -347,7 +347,7 @@ export default function FleetLivePage() {
             {c.mobile.shots.map((s) => (
               <figure key={s.img} className="fl-phone-item">
                 <div className="fl-phone">
-                  <span className="fl-phone-notch" aria-hidden="true" />
+                  <span className="fl-phone-island" aria-hidden="true" />
                   <img
                     className="fl-phone-shot"
                     src={s.img}

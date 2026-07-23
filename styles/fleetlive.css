@@ -528,29 +528,29 @@ a {
 .fl-phone {
   position: relative;
   width: 100%;
-  padding: 11px;
-  border-radius: 42px;
+  padding: 9px;
+  border-radius: 49px;
   background: linear-gradient(160deg, #1b2536, #090f1a);
   border: 1px solid var(--border-strong);
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
 }
-.fl-phone-notch {
+/* Dynamic Island — pilule flottante, format iPhone récents (15 Pro et +) */
+.fl-phone-island {
   position: absolute;
-  top: 11px;
+  top: 17px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36%;
-  height: 20px;
+  width: 31%;
+  height: 24px;
   background: #05080f;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-radius: 999px;
   z-index: 2;
 }
 .fl-phone-shot {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 32px;
+  border-radius: 40px;
   background: #f0f0f3;
 }
 .fl-phone-caption {
@@ -568,7 +568,7 @@ a {
 }
 
 /* Filtre bleu clair — fond les captures (UI claire) dans l'ambiance navy.
-   Superposé au screenshot, sous le notch (z-index 2) et le balayage scan (z-index 3). */
+   Superposé au screenshot, sous la Dynamic Island (z-index 2) et le balayage scan (z-index 3). */
 .fl-browser::after,
 .fl-phone::after {
   content: '';
@@ -584,8 +584,8 @@ a {
   bottom: 0;
 }
 .fl-phone::after {
-  inset: 11px; /* aligné sur le padding du mockup */
-  border-radius: 32px;
+  inset: 9px; /* aligné sur le padding du mockup */
+  border-radius: 40px;
 }
 
 /* ============================================================
