@@ -26,7 +26,7 @@ import { getContent, type Lang } from '@/lib/content'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-const CONTACT_EMAIL = 'lmsdrive45@gmail.com'
+const CONTACT_EMAIL = 'projobs01@gmail.com'
 // Lien public Cal.com (RDV démo 30 min) — la réservation crée l'événement dans l'agenda.
 // Page hébergée sur l'instance Cal.com région EU (cal.eu) → on précise l'origine + l'embed.js.
 const CAL_ORIGIN = 'https://cal.eu'
@@ -535,7 +535,9 @@ export default function FleetLivePage() {
           <div className="fl-footer-brand">
             <img className="fl-logo-img fl-logo-img--footer" src="/fleetlive-logo.png" alt="FleetLive" />
           </div>
-          <div className="fl-footer-copy">{c.footer}</div>
+          <div className="fl-footer-copy">
+            {c.footer} · <a className="fl-footer-mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+          </div>
         </div>
       </footer>
     </main>

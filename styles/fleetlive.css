@@ -1163,6 +1163,15 @@ a {
   color: var(--muted);
   font-size: 14px;
 }
+.fl-footer-mail {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: color 0.2s ease;
+}
+.fl-footer-mail:hover {
+  color: var(--fg, #fff);
+}
 
 /* ============================================================
    RESPONSIVE
